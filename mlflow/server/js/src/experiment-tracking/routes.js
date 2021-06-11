@@ -11,6 +11,8 @@ class Routes {
 
   static experimentPageSearchRoute = '/experiments/:experimentId/:searchString';
 
+  static chartSearchRoute = '/chart/:searchString';
+
   static getRunPageRoute(experimentId, runUuid) {
     return `/experiments/${experimentId}/runs/${runUuid}`;
   }
