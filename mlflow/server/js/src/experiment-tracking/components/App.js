@@ -19,10 +19,17 @@ import {
   modelVersionPageRoute,
   compareModelVersionsPageRoute,
 } from '../../model-registry/routes';
+import {
+  chartPageRoute,
+  dashboardPageRoute
+} from '../../diagram-show/routes';
 import { ModelVersionPage } from '../../model-registry/components/ModelVersionPage';
 import ModelListPage from '../../model-registry/components/ModelListPage';
 import { ModelPage } from '../../model-registry/components/ModelPage';
 import CompareModelVersionsPage from '../../model-registry/components/CompareModelVersionsPage';
+import { ChartPage } from '../../diagram-show/components/ChartPage'
+import { DashboardPage} from '../../diagram-show/components/DashboardPage'
+import console from "react-console";
 
 const classNames = {
   activeNavLink: { borderBottom: '4px solid #43C9ED' },
@@ -63,6 +70,26 @@ class App extends Component {
                     <span>Models</span>
                   </div>
                 </NavLink>
+                <NavLink
+                  strict
+                  to={dashboardPageRoute}
+                  activeStyle={classNames.activeNavLink}
+                  className='header-nav-link header-nav-link-dashboard'
+                >
+                  <div className='dashboard'>
+                    <span>dashboard</span>
+                  </div>
+                </NavLink>
+                <NavLink
+                  strict
+                  to={chartPageRoute}
+                  activeStyle={classNames.activeNavLink}
+                  className='header-nav-link header-nav-link-dashboard'
+                >
+                  <div className='chartshow'>
+                    <span>chartshow</span>
+                  </div>
+                </NavLink>
               </div>
               <div className='header-links'>
                 <a href={'https://github.com/mlflow/mlflow'}>
@@ -87,6 +114,7 @@ class App extends Component {
               <Route exact path={Routes.metricPageRoute} component={MetricPage} />
               <Route exact path={Routes.compareRunPageRoute} component={CompareRunPage} />
               <Route path={Routes.experimentPageSearchRoute} component={HomePage} />
+              <Route path={Routes.chartSearchRoute} component={ChartPage} />
               {/* TODO(Zangr) see if route component can be injected here */}
               <Route exact path={modelListPageRoute} component={ModelListPage} />
               <Route exact path={modelVersionPageRoute} component={ModelVersionPage} />
@@ -97,6 +125,8 @@ class App extends Component {
                 path={compareModelVersionsPageRoute}
                 component={CompareModelVersionsPage}
               />
+              <Route exact path={dashboardPageRoute} component={DashboardPage} />
+              <Route exact path={chartPageRoute} component={ChartPage} />
               <Route component={PageNotFoundView} />
             </Switch>
           </AppErrorBoundary>
@@ -107,6 +137,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("app mapStateToProps")
+  console.log(state)
   return {
     experiments: Object.values(state.entities.experimentsById),
   };
