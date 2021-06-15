@@ -7,12 +7,12 @@ import { getRunInfo, getExperiments,getRunTags } from '../../experiment-tracking
 import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
 
 
-export const COMPARE = {BASELINE_MKL_ICX:"Baseline ICX V.S MKL ICX",
-                        BASELINE_OAP_ICX:"Baseline ICX V.S OAP ICX",
-                        BASLINE_MKL_CLX:"Baseline CLX V.S MKL CLX",
-                        BASELINE_OAP_CLX:"Baseline CLX V.S OAP CLX",
-                        BASELINE_Rome_OAP_CLX:"Baseline Rome V.S OAP ICX",
-                        BASELINE_Rome_OAP_ICX:"Baseline Rome V.S OAP CLX"};
+export const COMPARE = {VANILLA_MKL_ICX:"Vanilla ICX V.S MKL ICX",
+                        VANILLA_OAP_ICX:"Vanilla ICX V.S OAP ICX",
+                        VANILLA_MKL_CLX:"Vanilla CLX V.S MKL CLX",
+                        VANILLA_OAP_CLX:"Vanilla CLX V.S OAP CLX",
+                        VANILLA_Rome_OAP_CLX:"Vanilla Rome V.S OAP ICX",
+                        VANILLA_Rome_OAP_ICX:"Vanilla Rome V.S OAP CLX"};
 
 export class DashboardPageImpl extends React.Component {
 
@@ -42,8 +42,8 @@ export class DashboardPageImpl extends React.Component {
         Header: 'Workload',
         accessor: 'workload'
       }, {
-        Header: 'ICX Baseline',
-        accessor: 'Baseline_ICX',
+        Header: 'ICX Vanilla',
+        accessor: 'Vanilla_ICX',
       },{
         Header: 'ICX MKL',
         accessor: 'MKL_ICX',
@@ -52,8 +52,8 @@ export class DashboardPageImpl extends React.Component {
         accessor: 'OAP_ICX',
 
       },  {
-        Header: 'CLX Baseline',
-        accessor: 'Baseline_CLX',
+        Header: 'CLX Vanilla',
+        accessor: 'Vanilla_CLX',
       },{
         Header: 'CLX MKL',
         accessor: 'MKL_CLX',
@@ -62,35 +62,35 @@ export class DashboardPageImpl extends React.Component {
         accessor: 'OAP_CLX',
 
       },{
-        Header: 'Rome Baseline',
-        accessor: 'Baseline_Rome',
+        Header: 'Rome Vanilla',
+        accessor: 'Vanilla_Rome',
       }, {
         Header: 'Rome Openblas',
         accessor: 'Openblas_Rome',
 
       },{
-        Header: 'BASELINE_MKL_ICX',
-        accessor: COMPARE.BASELINE_MKL_ICX,
+        Header: 'VANILLA_MKL_ICX',
+        accessor: COMPARE.VANILLA_MKL_ICX,
 
       },{
-        Header: 'BASELINE_OAP_ICX',
-        accessor:  COMPARE.BASELINE_OAP_ICX,
+        Header: 'VANILLA_OAP_ICX',
+        accessor:  COMPARE.VANILLA_OAP_ICX,
 
       },{
-        Header: 'BASELINE_MKL_CLX',
-        accessor:  COMPARE.BASELINE_MKL_CLX,
+        Header: 'VANILLA_MKL_CLX',
+        accessor:  COMPARE.VANILLA_MKL_CLX,
 
       },{
-        Header: 'BASELINE_MKL_CLX',
-        accessor:  COMPARE.BASELINE_OAP_ICX,
+        Header: 'VANILLA_MKL_CLX',
+        accessor:  COMPARE.VANILLA_OAP_ICX,
 
       },{
-        Header: 'BASELINE_Rome_OAP_CLX',
-        accessor:  COMPARE.BASELINE_Rome_OAP_CLX,
+        Header: 'VANILLA_Rome_OAP_CLX',
+        accessor:  COMPARE.VANILLA_Rome_OAP_CLX,
 
       },{
-        Header: 'BASELINE_Rome_OAP_ICX',
-        accessor:  COMPARE.BASELINE_Rome_OAP_ICX,
+        Header: 'VANILLA_Rome_OAP_ICX',
+        accessor:  COMPARE.VANILLA_Rome_OAP_ICX,
 
       }
     ]
@@ -293,6 +293,10 @@ export class DashboardPageImpl extends React.Component {
   return {metricMap,latesttagsMap,gendataMap};
  
  };
-
+ const mapDispatchToProps = {
+  getExperimentApi,
+  searchRunsApi,
+  loadMoreRunsApi,
+};
   
   export const DashboardPage = connect(mapStateToProps)(DashboardPageImpl);{}
