@@ -231,11 +231,13 @@ export class DashboardPageImpl extends React.Component {
                 totalvalue=value;
               }
           })
-          if(gendataMap.has(tmp[1]) === false){
-            tmpMap.set(runuuidMap.get(tmp[0]),totalvalue);
-              gendataMap.set(tmp[1],tmpMap);
-          }else{
-              gendataMap.get(tmp[1]).set(runuuidMap.get(tmp[0]), totalvalue);
+          if(tmp[1]!==undefined || tmp[1]!==" " || tmp[1]!== null ){
+            if(gendataMap.has(tmp[1]) === false){
+              tmpMap.set(runuuidMap.get(tmp[0]),totalvalue);
+                gendataMap.set(tmp[1],tmpMap);
+            }else{
+                gendataMap.get(tmp[1]).set(runuuidMap.get(tmp[0]), totalvalue);
+            }
           }
         }
       });

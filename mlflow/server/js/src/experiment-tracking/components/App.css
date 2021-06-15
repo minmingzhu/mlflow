@@ -103,6 +103,14 @@ div.docs {
   margin-left: 24px;
 }
 
+.header-nav-link-dashboard {
+  margin-left: 24px;
+}
+
+.header-nav-link-chartshow {
+  margin-left: 24px;
+}
+
 div.experiments, div.models {
   color: #ffffff;
 }
