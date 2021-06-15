@@ -151,7 +151,10 @@ export class DashboardPageImpl extends React.Component {
   tagsSet.forEach((string) => {
     console.log(string);
     const tmp = string.split("_");
-    const key_name = tmp[2] + '_' + tmp[3]
+    var key_name = tmp[2] + '_' + tmp[3]
+    if(tmp.length > 4 ){
+      key_name = tmp[2] + '_' + tmp[4]
+    }
     console.log(tmp);
     if(latesttagsMap.has(key_name) === false){
         console.log(key_name);
@@ -249,14 +252,16 @@ export class DashboardPageImpl extends React.Component {
     const CLXmap =new Map();
     const Romemap =new Map();
     item.forEach((value, key) => {
-        const tmp = key.split("_");
-        if(tmp[1] === "ICX"){
-          ICXmap.set(tmp[0],value);
-        }else if(tmp[1] === "CLX"){
-          CLXmap.set(tmp[0],value);
-        }else if(tmp[1] === "Rome"){
-          Romemap.set(tmp[0],value);
-        }
+      if(key!==undefined || key!==" " || key!== null ){
+          const tmp = key.split("_");
+          if(tmp[1] === "ICX"){
+            ICXmap.set(tmp[0],value);
+          }else if(tmp[1] === "CLX"){
+            CLXmap.set(tmp[0],value);
+          }else if(tmp[1] === "Rome"){
+            Romemap.set(tmp[0],value);
+          }
+      }
     });
     if(ICXmap.get("Baseline") !== null  || ICXmap.get("Baseline") !==undefined  || ICXmap.get("Baseline") !==" "  
        && ICXmap.get("MKL")!==null ||ICXmap.get("MKL")!==undefined ||ICXmap.get("MKL")!==" "){
