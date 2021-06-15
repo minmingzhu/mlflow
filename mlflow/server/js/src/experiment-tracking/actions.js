@@ -1,10 +1,13 @@
 import { MlflowService } from './sdk/MlflowService';
 import { getUUID, wrapDeferred } from '../common/utils/ActionUtils';
+import console from "react-console";
 
-export const SEARCH_MAX_RESULTS = 100;
+
+export const SEARCH_MAX_RESULTS = 1000;
 
 export const LIST_EXPERIMENTS_API = 'LIST_EXPERIMENTS_API';
 export const listExperimentsApi = (id = getUUID()) => {
+  console.log("listExperimentsApi")
   return {
     type: LIST_EXPERIMENTS_API,
     payload: wrapDeferred(MlflowService.listExperiments, {}),
@@ -14,6 +17,7 @@ export const listExperimentsApi = (id = getUUID()) => {
 
 export const GET_EXPERIMENT_API = 'GET_EXPERIMENT_API';
 export const getExperimentApi = (experimentId, id = getUUID()) => {
+  console.log("getExperimentApi")
   return {
     type: GET_EXPERIMENT_API,
     payload: wrapDeferred(MlflowService.getExperiment, { experiment_id: experimentId }),

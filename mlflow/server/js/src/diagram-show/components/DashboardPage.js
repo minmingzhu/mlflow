@@ -5,7 +5,12 @@ import '../../../node_modules/react-table-v6/react-table.css'
 import console from "react-console";
 import { getRunInfo, getExperiments,getRunTags } from '../../experiment-tracking/reducers/Reducers';
 import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
-
+import {  listExperimentsApi, searchRunsApi } from '../../experiment-tracking/actions';
+import { getUUID } from '../../common/utils/ActionUtils';
+import PropTypes from 'prop-types';
+import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
+import Utils from '../../common/utils/Utils';
+import { split } from 'lodash';
 
 export const COMPARE = {VANILLA_MKL_ICX:"Vanilla ICX V.S MKL ICX",
                         VANILLA_OAP_ICX:"Vanilla ICX V.S OAP ICX",
@@ -23,27 +28,60 @@ export class DashboardPageImpl extends React.Component {
         }
     }
   
+    static propTypes = {
+      searchRunsApi: PropTypes.func.isRequired,
+    };
+
+    componentDidMount() {
+      this.loadData();
+    }
+
+    searchRunsRequestId = getUUID();
+
+    loadData() {
+     this.handleGettingRuns(this.props.searchRunsApi, this.searchRunsRequestId);
+    }
+
+    handleGettingRuns = (getRunsAction, requestId) => {
+      const { experiments } = this.props;
+      const experimentIds = experiments.map((r) => r.experiment_id);
+      return getRunsAction({
+        filter: null,
+        runViewType: ViewType.ACTIVE_ONLY,
+        experimentIds: experimentIds,
+        orderBy: null,
+        pageToken: null,
+        shouldFetchParents: true,
+        id: requestId,
+      })
+        .catch((e) => {
+          Utils.logErrorAndNotifyUser(e);
+        });
+    };
 
   render(){
     const {gendataMap} = this.props;
     const data = []
+    console.log(gendataMap);
+    var i =0;
     gendataMap.forEach((value,key)=>{
-      var i =0;
-      const datastate = {};
+      var datastate = {};
       datastate["workload"]= key
       value.forEach((value,key) => {
-        datastate[key] = value
+        if(key!==undefined){
+          datastate[key] = value
+        }
       })
       data[i] = datastate;
       i = i + 1;
     });
-    
+
       const columns = [{
         Header: 'Workload',
         accessor: 'workload'
       }, {
         Header: 'ICX Vanilla',
-        accessor: 'Vanilla_ICX',
+        accessor: 'Baseline_ICX',
       },{
         Header: 'ICX MKL',
         accessor: 'MKL_ICX',
@@ -53,7 +91,7 @@ export class DashboardPageImpl extends React.Component {
 
       },  {
         Header: 'CLX Vanilla',
-        accessor: 'Vanilla_CLX',
+        accessor: 'Baseline_CLX',
       },{
         Header: 'CLX MKL',
         accessor: 'MKL_CLX',
@@ -63,7 +101,7 @@ export class DashboardPageImpl extends React.Component {
 
       },{
         Header: 'Rome Vanilla',
-        accessor: 'Vanilla_Rome',
+        accessor: 'Baseline_Rome',
       }, {
         Header: 'Rome Openblas',
         accessor: 'Openblas_Rome',
@@ -104,6 +142,7 @@ export class DashboardPageImpl extends React.Component {
     
   export const mapStateToProps = (state, ownProps) => {
     console.log(state)
+    console.log(ownProps)
     const { runInfosByUuid } = state.entities;
     const experiments = getExperiments(state)
 
@@ -136,11 +175,11 @@ export class DashboardPageImpl extends React.Component {
         if(tag.key === "dashboard"){
           isdabosrd = tag.value;
         }
-    });
-    if(isdabosrd === "true"){
-      const newString = runInfo.getRunUuid() + '_' + startTime + '_' + run_name + '_' + platform ;
-      tagsSet.add(newString);
-    }
+      });
+      if(isdabosrd === "true"){
+        const newString = runInfo.getRunUuid() + '_' + startTime + '_' + run_name + '_' + platform ;
+        tagsSet.add(newString);
+      }
 
     return tags;
   });
@@ -151,15 +190,16 @@ export class DashboardPageImpl extends React.Component {
   tagsSet.forEach((string) => {
     console.log(string);
     const tmp = string.split("_");
-    var key_name = tmp[2] + '_' + tmp[3]
+    var key_name = tmp[2] + '_' + tmp[3] + '_' + tmp[0] 
     if(tmp.length > 4 ){
-      key_name = tmp[2] + '_' + tmp[4]
+      key_name = tmp[2] + '_' + tmp[4] + '_' + tmp[0] 
     }
     console.log(tmp);
     if(latesttagsMap.has(key_name) === false){
         console.log(key_name);
         latesttagsMap.set(key_name,string);
     }else{
+      console.log("latesttagsMap.value");
       console.log(latesttagsMap.value);
       const tmpString = latesttagsMap.value.split("_");
       if(parseInt(tmp[1]) > parseInt(tmpString[1])){
@@ -236,10 +276,12 @@ export class DashboardPageImpl extends React.Component {
           })
           if(tmp[1]!==undefined || tmp[1]!==" " || tmp[1]!== null ){
             if(gendataMap.has(tmp[1]) === false){
-              tmpMap.set(runuuidMap.get(tmp[0]),totalvalue);
-                gendataMap.set(tmp[1],tmpMap);
+              const temp = runuuidMap.get(tmp[0]).split("_");
+              tmpMap.set(temp[0] + '_'+ temp[1],totalvalue);
+              gendataMap.set(tmp[1],tmpMap);
             }else{
-                gendataMap.get(tmp[1]).set(runuuidMap.get(tmp[0]), totalvalue);
+              const temp = runuuidMap.get(tmp[0]).split("_");
+              gendataMap.get(tmp[1]).set(temp[0] + '_'+ temp[1], totalvalue);
             }
           }
         }
@@ -288,10 +330,14 @@ export class DashboardPageImpl extends React.Component {
       item.set(COMPARE.BASELINE_Rome_OAP_CLX,  parseInt(CLXmap.get("OAP"))/Romemap.get("Vanilla"));
     }
   });
+  console.log(gendataMap);
 
-
-  return {metricMap,latesttagsMap,gendataMap};
+  return {experiments,metricMap,latesttagsMap,gendataMap};
  
  };
   
-  export const DashboardPage = connect(mapStateToProps)(DashboardPageImpl);{}
+ const mapDispatchToProps = {
+  searchRunsApi,
+};
+ 
+  export const DashboardPage = connect(mapStateToProps, mapDispatchToProps)(DashboardPageImpl);{}

@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import { getRunInfo, getExperiments,getRunTags } from '../../experiment-tracking/reducers/Reducers';
 import { connect } from 'react-redux';
-import { getExperimentApi, getRunApi, listExperimentsApi} from '../../experiment-tracking/actions';
 import console from "react-console";
 import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
 import { Experiment, RunInfo } from '../../experiment-tracking/sdk/MlflowMessages';
+import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
+import Utils from '../../common/utils/Utils';
+import { getUUID } from '../../common/utils/ActionUtils';
+
 
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
@@ -18,6 +21,7 @@ export class ChartPlotView extends React.Component {
       // Lifecycle filter of runs to display
       lifecycleFilter: LIFECYCLE_FILTER.ACTIVE,
       experiment:'',
+      ExperimentKeyFilterString: '' ,
     };
   }
   
@@ -30,6 +34,7 @@ export class ChartPlotView extends React.Component {
         isdabosrd: PropTypes.bool,
         checkPlatform: PropTypes.bool,
       };
+
 
 
   render(){
@@ -77,6 +82,11 @@ export const mapStateToProps = (state, ownProps) => {
   const experiments = getExperiments(state)
   const experiment = experiments.filter((e) => e.experiment_id === ownProps.ExperimentKeyFilterString.toString()).map((e) => e.name)
   const plot_name = experiment[0]
+
+  const experiment_id = experiments.filter((e) => e.experiment_id === ownProps.ExperimentKeyFilterString.toString()).map((e) => e.experiment_id)
+
+  console.log("experiment_id");
+  console.log(experiment_id);
 
   const runUuids = Object.values(runInfosByUuid)
   .filter((r) => r.experiment_id === ownProps.ExperimentKeyFilterString.toString())
@@ -149,13 +159,7 @@ export const mapStateToProps = (state, ownProps) => {
     })
   })
 
-  return {gen_data, plot_name};
+  return { gen_data, plot_name};
 };
 
-const mapDispatchToProps = {
-  getRunApi,
-  getExperimentApi,
-  listExperimentsApi,
-};
-
-export default connect(mapStateToProps,mapDispatchToProps)(ChartPlotView);
+export default connect(mapStateToProps)(ChartPlotView);

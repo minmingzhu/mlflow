@@ -10,6 +10,7 @@ import console from "react-console";
 import ChartPlotView from './ChartPlotView';
 import { getUUID } from '../../common/utils/ActionUtils';
 import RequestStateWrapper from '../../common/components/RequestStateWrapper';
+import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 
 
 export class ChartView extends React.Component {
@@ -31,30 +32,44 @@ export class ChartView extends React.Component {
     ExperimentKeyFilterString: PropTypes.string.isRequired,
     TagKeyFilterString: PropTypes.string.isRequired,
     getExperimentApi: PropTypes.func.isRequired,
+    searchRunsApi: PropTypes.func.isRequired,
   };
-
-  loadData() {
-    this.props.getExperimentApi(this.props.experimentId, this.getExperimentRequestId).catch((e) => {
-      console.error(e);
-    });
-  }
 
   componentDidMount() {
     this.loadData();
   }
 
+  loadData() {
+    this.props.getExperimentApi(this.props.experimentId, this.getExperimentRequestId).catch((e) => {
+      console.error(e);
+    });
+
+  }
+
   getExperimentRequestId = getUUID();
   searchRunsRequestId = getUUID();
+
+
+   handleGettingRuns = (getRunsAction, requestId, state) => {
+     return getRunsAction({
+       filter: null,
+       runViewType: ViewType.ACTIVE_ONLY,
+       experimentIds:  [this.state.ExperimentKeyFilterString],
+       orderBy: null,
+       pageToken: null,
+       shouldFetchParents: true,
+       id: requestId,
+     })
+       .catch((e) => {
+         Utils.logErrorAndNotifyUser(e);
+       });
+   };
 
   getRequestIds() {
     return [this.getExperimentRequestId, this.searchRunsRequestId];
   }
   
     render() {
-      // const {
-      //   ExperimentKeyFilterString,
-      //   TagKeyFilterString,
-      // } = this.props.persistedState;
       console.log("props view");
       console.log(this.props)
       const height = this.state.height || window.innerHeight;
@@ -136,6 +151,7 @@ export class ChartView extends React.Component {
       ExperimentKeyFilterString !== undefined ? ExperimentKeyFilterString : this.state.ExperimentKeyFilterString;
       const myTagKeyFilterString =
       TagKeyFilterString !== undefined ? TagKeyFilterString : this.state.TagKeyFilterString;
+      this.handleGettingRuns(this.props.searchRunsApi, this.searchRunsRequestId, this.state);
       this.props.onSearch(
         myExperimentKeyFilterString,
         myTagKeyFilterString,
