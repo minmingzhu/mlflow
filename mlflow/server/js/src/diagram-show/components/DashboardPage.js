@@ -199,8 +199,6 @@ export class DashboardPageImpl extends React.Component {
         console.log(key_name);
         latesttagsMap.set(key_name,string);
     }else{
-      console.log("latesttagsMap.value");
-      console.log(latesttagsMap.value);
       const tmpString = latesttagsMap.value.split("_");
       if(parseInt(tmp[1]) > parseInt(tmpString[1])){
         latesttagsMap.set(key_name,string);
@@ -340,4 +338,4 @@ export class DashboardPageImpl extends React.Component {
   searchRunsApi,
 };
  
-  export const DashboardPage = connect(mapStateToProps, mapDispatchToProps)(DashboardPageImpl);{}
+  export const DashboardPage = connect(mapStateToProps, mapDispatchToProps)(DashboardPageImpl);

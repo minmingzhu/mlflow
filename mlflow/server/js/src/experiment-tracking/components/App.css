@@ -111,7 +111,11 @@ div.docs {
   margin-left: 24px;
 }
 
-div.experiments, div.models {
+.header-nav-link-milestones {
+  margin-left: 24px;
+}
+
+div.experiments, div.models, div.dashboard, div.chartshow, div.milestones{
   color: #ffffff;
 }
 

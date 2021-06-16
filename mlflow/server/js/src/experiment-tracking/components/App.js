@@ -21,14 +21,16 @@ import {
 } from '../../model-registry/routes';
 import {
   chartPageRoute,
-  dashboardPageRoute
+  dashboardPageRoute,
+  milestonesPageRoute
 } from '../../diagram-show/routes';
 import { ModelVersionPage } from '../../model-registry/components/ModelVersionPage';
 import ModelListPage from '../../model-registry/components/ModelListPage';
 import { ModelPage } from '../../model-registry/components/ModelPage';
 import CompareModelVersionsPage from '../../model-registry/components/CompareModelVersionsPage';
-import { ChartPage } from '../../diagram-show/components/ChartPage'
-import { DashboardPage} from '../../diagram-show/components/DashboardPage'
+import { ChartPage } from '../../diagram-show/components/ChartPage';
+import { DashboardPage } from '../../diagram-show/components/DashboardPage';
+import { MilestonesPage } from '../../diagram-show/components/MilestonesPage';
 import console from "react-console";
 
 const classNames = {
@@ -84,10 +86,20 @@ class App extends Component {
                   strict
                   to={chartPageRoute}
                   activeStyle={classNames.activeNavLink}
-                  className='header-nav-link header-nav-link-dashboard'
+                  className='header-nav-link header-nav-link-chartshow'
                 >
                   <div className='chartshow'>
                     <span>chartshow</span>
+                  </div>
+                </NavLink>
+                <NavLink
+                  strict
+                  to={milestonesPageRoute}
+                  activeStyle={classNames.activeNavLink}
+                  className='header-nav-link header-nav-link-milestones'
+                >
+                  <div className='milestones'>
+                    <span>milestones</span>
                   </div>
                 </NavLink>
               </div>
@@ -115,6 +127,7 @@ class App extends Component {
               <Route exact path={Routes.compareRunPageRoute} component={CompareRunPage} />
               <Route path={Routes.experimentPageSearchRoute} component={HomePage} />
               <Route path={Routes.chartSearchRoute} component={ChartPage} />
+              <Route path={Routes.milestonesPageRoute} component={MilestonesPage} />
               {/* TODO(Zangr) see if route component can be injected here */}
               <Route exact path={modelListPageRoute} component={ModelListPage} />
               <Route exact path={modelVersionPageRoute} component={ModelVersionPage} />
@@ -127,6 +140,7 @@ class App extends Component {
               />
               <Route exact path={dashboardPageRoute} component={DashboardPage} />
               <Route exact path={chartPageRoute} component={ChartPage} />
+              <Route exact path={milestonesPageRoute} component={MilestonesPage} />
               <Route component={PageNotFoundView} />
             </Switch>
           </AppErrorBoundary>

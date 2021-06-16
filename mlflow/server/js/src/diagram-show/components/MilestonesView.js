@@ -7,13 +7,13 @@ import { Experiment } from '../../experiment-tracking/sdk/MlflowMessages';
 import { getExperiments } from '../../experiment-tracking/reducers/Reducers';
 import { getExperimentApi, getRunApi, searchRunsApi } from '../../experiment-tracking/actions';
 import console from "react-console";
-import ChartPlotView from './ChartPlotView';
 import { getUUID } from '../../common/utils/ActionUtils';
 import RequestStateWrapper from '../../common/components/RequestStateWrapper';
 import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
+import MilestonesPlotView from './MilestonesPlotView';
 
 
-export class ChartView extends React.Component {
+export class MilestonesView extends React.Component {
   constructor(props) {
     super(props);
     this.onSearch = this.onSearch.bind(this);
@@ -84,7 +84,7 @@ export class ChartView extends React.Component {
       return (
         <div className='outer-container' style={{ height: containerHeight }}>
           <RequestStateWrapper shouldOptimisticallyRender requestIds={this.getRequestIds()}>
-          <div className='chart-list-container' style={{ height: experimentListHeight }}>
+          <div className='milestones-list-container' style={{ height: experimentListHeight }}>
             <label>
                 experiment_id:
                   <select defaultValue={this.props.ExperimentKeyFilterString} name="ExperimentKeyFilterString" class="ui dropdown"  value={this.state.ExperimentKeyFilterString} onChange={this.handleChange}>
@@ -119,12 +119,10 @@ export class ChartView extends React.Component {
                     </Button>
                 </div>
            </div>
-           <div className='chart-view-container' style={{ height: experimentListHeight }}>
-                     <ChartPlotView 
+           <div className='milestones-view-container' style={{ height: experimentListHeight }}>
+                     <MilestonesPlotView 
                      ExperimentKeyFilterString={this.props.ExperimentKeyFilterString}
                      TagKeyFilterString={this.props.TagKeyFilterString}
-                     experiments={this.props.experiments}
-                     runUuids={this.props.runUuids}
                     />
            </div>
         </RequestStateWrapper>
@@ -170,7 +168,7 @@ export class ChartView extends React.Component {
   const mapStateToProps = (state, ownProps) => {
     const experiments = getExperiments(state);
     console.log(state);
-    console.log("ownProps view");
+    console.log("milestones view");
     console.log(ownProps)
     const { runInfosByUuid } = state.entities;
     const runUuids = Object.values(runInfosByUuid)
@@ -178,7 +176,7 @@ export class ChartView extends React.Component {
     .map((r) => r.run_uuid);
 
     experiments.sort(Utils.compareExperiments);
-    console.log("Bashboard view");
+    console.log("Milestones Bashboard view");
     console.log({experiments})
     console.log({runInfosByUuid})
     console.log({runUuids})
@@ -186,4 +184,4 @@ export class ChartView extends React.Component {
     return {experiments, runUuids};
   };
   
-  export default connect(mapStateToProps,mapDispatchToProps)(ChartView);
+  export default connect(mapStateToProps,mapDispatchToProps)(MilestonesView);
