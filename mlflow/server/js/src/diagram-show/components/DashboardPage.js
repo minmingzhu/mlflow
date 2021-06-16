@@ -81,7 +81,7 @@ export class DashboardPageImpl extends React.Component {
         accessor: 'workload'
       }, {
         Header: 'ICX Vanilla',
-        accessor: 'Baseline_ICX',
+        accessor: 'Vanilla_ICX',
       },{
         Header: 'ICX MKL',
         accessor: 'MKL_ICX',
@@ -91,7 +91,7 @@ export class DashboardPageImpl extends React.Component {
 
       },  {
         Header: 'CLX Vanilla',
-        accessor: 'Baseline_CLX',
+        accessor: 'Vanilla_CLX',
       },{
         Header: 'CLX MKL',
         accessor: 'MKL_CLX',
@@ -101,7 +101,7 @@ export class DashboardPageImpl extends React.Component {
 
       },{
         Header: 'Rome Vanilla',
-        accessor: 'Baseline_Rome',
+        accessor: 'Vanilla_Rome',
       }, {
         Header: 'Rome Openblas',
         accessor: 'Openblas_Rome',
