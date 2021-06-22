@@ -12,12 +12,12 @@ import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 import Utils from '../../common/utils/Utils';
 import { split } from 'lodash';
 
-export const COMPARE = {VANILLA_MKL_ICX:"Vanilla ICX V.S MKL ICX",
-                        VANILLA_OAP_ICX:"Vanilla ICX V.S OAP ICX",
-                        VANILLA_MKL_CLX:"Vanilla CLX V.S MKL CLX",
-                        VANILLA_OAP_CLX:"Vanilla CLX V.S OAP CLX",
-                        VANILLA_Rome_OAP_CLX:"Vanilla Rome V.S OAP ICX",
-                        VANILLA_Rome_OAP_ICX:"Vanilla Rome V.S OAP CLX"};
+export const COMPARE = {VANILLA_MKL_ICX:"VANILLA_MKL_ICX",
+                        VANILLA_OAP_ICX:"VANILLA_OAP_ICX",
+                        VANILLA_MKL_CLX:"VANILLA_MKL_CLX",
+                        VANILLA_OAP_CLX:"VANILLA_OAP_CLX",
+                        VANILLA_Rome_OAP_CLX:"VANILLA_Rome_OAP_CLX",
+                        VANILLA_Rome_OAP_ICX:"VANILLA_Rome_OAP_ICX"};
 
 export class DashboardPageImpl extends React.Component {
 
@@ -321,11 +321,11 @@ export class DashboardPageImpl extends React.Component {
     }   
     if(ICXmap.get("OAP") !== null  || ICXmap.get("OAP") !==undefined  || ICXmap.get("OAP") !==" "  
     && Romemap.get("Vanilla")!==null ||Romemap.get("Vanilla")!==undefined ||Romemap.get("Vanilla")!==" "){
-      item.set(COMPARE.VANILLA_Rome_OAP_ICX,  parseInt(ICXmap.get("OAP"))/parseInt(Romemap.get("Vanilla")));
+      item.set(COMPARE.VANILLA_Rome_OAP_ICX,  parseInt(parseInt(Romemap.get("Vanilla"))/ICXmap.get("OAP")));
     }
     if(CLXmap.get("OAP") !== null  || CLXmap.get("OAP") !==undefined  || CLXmap.get("OAP") !==" "  
     && Romemap.get("Vanilla")!==null ||Romemap.get("Vanilla")!==undefined ||Romemap.get("Vanilla")!==" "){
-      item.set(COMPARE.VANILLA_Rome_OAP_CLX,  parseInt(CLXmap.get("OAP"))/parseInt(Romemap.get("Vanilla")));
+      item.set(COMPARE.VANILLA_Rome_OAP_CLX,  parseInt(parseInt(Romemap.get("Vanilla"))/CLXmap.get("OAP")));
     }
   });
   console.log(gendataMap);
