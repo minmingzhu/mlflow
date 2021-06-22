@@ -120,7 +120,7 @@ export class DashboardPageImpl extends React.Component {
 
       },{
         Header: 'VANILLA_MKL_CLX',
-        accessor:  COMPARE.VANILLA_OAP_ICX,
+        accessor:  COMPARE.VANILLA_OAP_CLX,
 
       },{
         Header: 'VANILLA_Rome_OAP_CLX',
