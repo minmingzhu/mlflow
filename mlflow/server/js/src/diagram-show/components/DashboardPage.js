@@ -305,19 +305,19 @@ export class DashboardPageImpl extends React.Component {
     });
     if(ICXmap.get("Vanilla") !== null  || ICXmap.get("Vanilla") !==undefined  || ICXmap.get("Vanilla") !==" "  
        && ICXmap.get("MKL")!==null ||ICXmap.get("MKL")!==undefined ||ICXmap.get("MKL")!==" "){
-      item.set(COMPARE.VANILLA_MKL_ICX,  parseInt(ICXmap.get("Vanilla"))/parseInt(ICXmap.get("MKL")).toFixed(3));
+      item.set(COMPARE.VANILLA_MKL_ICX,   parseInt(parseInt(ICXmap.get("Vanilla"))/parseInt(ICXmap.get("MKL"))).toFixed(3));
     }
     if(ICXmap.get("Vanilla") !== null  || ICXmap.get("Vanilla") !==undefined  || ICXmap.get("Vanilla") !==" "  
        && ICXmap.get("OAP")!==null ||ICXmap.get("OAP")!==undefined ||ICXmap.get("OAP")!==" "){
-        item.set(COMPARE.VANILLA_OAP_ICX,  parseInt(ICXmap.get("Vanilla"))/parseInt(ICXmap.get("OAP")).toFixed(3));
+        item.set(COMPARE.VANILLA_OAP_ICX,   parseInt(parseInt(ICXmap.get("Vanilla"))/parseInt(ICXmap.get("OAP"))).toFixed(3));
       }
     if(CLXmap.get("Vanilla") !== null  || CLXmap.get("Vanilla") !==undefined  || CLXmap.get("Vanilla") !==" "  
        && CLXmap.get("MKL")!==null ||CLXmap.get("MKL")!==undefined ||CLXmap.get("MKL")!==" "){
-        item.set(COMPARE.VANILLA_MKL_CLX,  parseInt(CLXmap.get("Vanilla"))/parseInt(CLXmap.get("MKL")).toFixed(3));
+        item.set(COMPARE.VANILLA_MKL_CLX,   parseInt(parseInt(CLXmap.get("Vanilla"))/parseInt(CLXmap.get("MKL"))).toFixed(3));
       }
     if(CLXmap.get("Vanilla") !== null  || CLXmap.get("Vanilla") !==undefined  || CLXmap.get("Vanilla") !==" "  
     && CLXmap.get("OAP")!==null ||CLXmap.get("OAP")!==undefined ||CLXmap.get("OAP")!==" "){
-      item.set(COMPARE.VANILLA_OAP_CLX,  parseInt(CLXmap.get("Vanilla"))/parseInt(CLXmap.get("OAP")).toFixed(3));
+      item.set(COMPARE.VANILLA_OAP_CLX,   parseInt(parseInt(CLXmap.get("Vanilla"))/parseInt(CLXmap.get("OAP"))).toFixed(3));
     }   
     if(ICXmap.get("OAP") !== null  || ICXmap.get("OAP") !==undefined  || ICXmap.get("OAP") !==" "  
     && Romemap.get("Vanilla")!==null ||Romemap.get("Vanilla")!==undefined ||Romemap.get("Vanilla")!==" "){
