@@ -19,8 +19,8 @@ export class MilestonesPlotView extends React.Component {
       lifecycleFilter: LIFECYCLE_FILTER.ACTIVE,
       experiment:'',
       ExperimentKeyFilterString: '' ,
-    };
-  }
+      };
+    }
   
     static propTypes = {
         ExperimentKeyFilterString: PropTypes.string,
@@ -54,7 +54,6 @@ export class MilestonesPlotView extends React.Component {
                   console.log(xarry);
                   console.log(yarry);
                   plots.push(
-                    <div style={{ height: containerHeight }}>
                         <Plot
                             data={[
                               {
@@ -68,16 +67,15 @@ export class MilestonesPlotView extends React.Component {
                             ]}
                             layout={{width: 320, height: 240, title: key}}
                           />
-                      </div> 
                   );
                 });
-              });
-              return (
-                <div>
-                  {plots}
-                </div>
-              );
-          }
+            });
+        return (
+          <div style={{ height: containerHeight }}>
+            {plots}
+          </div>
+        );
+  }
 }
 
 export const mapStateToProps = (state, ownProps) => {

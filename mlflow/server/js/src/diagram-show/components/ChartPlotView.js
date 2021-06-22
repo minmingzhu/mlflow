@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Plot from 'react-plotly.js';
+import  Plot from 'react-plotly.js';
 import { getRunInfo, getExperiments,getRunTags } from '../../experiment-tracking/reducers/Reducers';
 import { connect } from 'react-redux';
 import console from "react-console";
 import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
-import { Experiment, RunInfo } from '../../experiment-tracking/sdk/MlflowMessages';
+import { Experiment, MetricSearchExpression, RunInfo } from '../../experiment-tracking/sdk/MlflowMessages';
 import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 import Utils from '../../common/utils/Utils';
 import { getUUID } from '../../common/utils/ActionUtils';
 
-
-
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
+export const BASELINE_SORT = ['Rome', 'CLX', 'ICX'];
 
 export class ChartPlotView extends React.Component {
   constructor(props) {
@@ -44,31 +43,310 @@ export class ChartPlotView extends React.Component {
         // 60 pixels for the height of the top bar.
         // 100 for the experiments header and some for bottom padding.
         const experimentListHeight = height - 50 - 100;
-        const data = this.props.gen_data;
+        const {gen_data, total_gen_data} = this.props;
 
-        const xSet = new Array();
-        const ySet = new Array();
-        data.forEach((value,key) =>{
-          xSet.push(key);
-          ySet.push(value);
-        });
-          return(
-            <div style={{ height: containerHeight }}>
-              <Plot
-                  data={[
-                    {
-                      x: xSet,
-                      y: ySet,
-                      type: 'scatter',
-                      mode: 'lines+markers',
-                      marker: {color: 'red'},
-                    },
-                    {type: 'bar', x: xSet, y: ySet},
-                  ]}
-                  layout={{width: 500, height: 500, title: this.props.plot_name}}
-                /> 
-            </div>        
+        let plots = [];
+        var yarray1 = [gen_data.size];
+        var yarray2 = [gen_data.size];
+        var yarray3 = [gen_data.size];
+        var yarray4 = [gen_data.size];
+        var yarray5 = [gen_data.size];
+        var xarray = [gen_data.size];
+        var title = '';
+        if(this.props.TagKeyFilterString === "Total"){
+          var dataMap = new Map();
+              const tmpKeys = Array.from(total_gen_data.keys());
+              var sortKeys = [];
+              BASELINE_SORT.forEach((item) =>{
+                  tmpKeys.forEach((item1) =>{
+                    if(item === item1){
+                      sortKeys.push(item1);
+                    }
+                  });
+              });
+              console.log("sortKeys");
+              console.log(sortKeys);
+              for(let i=0; i< sortKeys.length; i++){
+                for(let j=i+1; j< sortKeys.length; j++){
+                  const tmpString = sortKeys[i] + "_" + sortKeys[j];
+                  console.log("tmpString");
+                  console.log(total_gen_data.get(sortKeys[i]));
+                  if(dataMap.has(tmpString) === false){
+                    const tmpMaps_i = total_gen_data.get(sortKeys[i]);
+                    const tmpMaps_j = total_gen_data.get(sortKeys[j]);
+                    const tmpMaps = new Map();
+                    tmpMaps_i.forEach((value, key ) => tmpMaps.set(key, value));
+                    tmpMaps_j.forEach((value, key ) => tmpMaps.set(key, value));
+                    dataMap.set(tmpString, tmpMaps);
+                  }          
+                }
+              }
+              console.log("dataMap");
+              console.log(dataMap);
+
+              dataMap.forEach((value, key) => {
+                title = key;
+                yarray1 = [value.size];
+                yarray2 = [value.size];
+                yarray3 = [value.size];
+                yarray4 = [value.size];
+                yarray5 = [value.size];
+                xarray = [value.size];
+                let i = 0;
+                value.forEach((value1, key1) => {
+                  xarray[i]=key1;
+                  value1.forEach((item) => {
+                    if(item.key === "spark initialize"){
+                      yarray1[i] = item.value
+                    }else if(item.key === "initialize"){
+                      yarray2[i] = item.value
+                    }else if(item.key === "training"){
+                      yarray3[i] = item.value
+                    }else if(item.key === "driver training"){
+                      yarray4[i] = item.value
+                    }else if(item.key === "total"){
+                      yarray5[i] = item.value
+                    }
+                  });
+                  i = i + 1 ;
+                });
+
+                var trace1 = {
+                  x: xarray,
+                  y: yarray1,
+                  name: 'spark initialize',
+                  orientation: 'w',
+                  marker: {
+                    color: 'rgba(255,0,0,0.3)',
+                    width: 1
+                  },
+                  type: 'bar'
+                };
+                
+                var trace2 = {
+                  x: xarray,
+                  y: yarray2,
+                  name: 'initialize',
+                  orientation: 'w',
+                  type: 'bar',
+                  marker: {
+                    color: 'rgba(0,255,0,0.3)',
+                    width: 1
+                  }
+                };
+        
+                var trace3 = {
+                  x: xarray,
+                  y: yarray3,
+                  name: 'training',
+                  orientation: 'w',
+                  type: 'bar',
+                  marker: {
+                    color: 'rgba(0,0,255,0.3)',
+                    width: 1
+                  }
+                };
+        
+                var trace4 = {
+                  x: xarray,
+                  y: yarray4,
+                  name: 'driver training',
+                  orientation: 'w',
+                  type: 'bar',
+                  marker: {
+                    color: 'rgba(255,0,255,0.3)',
+                    width: 1
+                  }
+                };
+        
+                var tmp = [1];
+                var tmpColor = ['rgba(204,204,204,1)'];
+                for(let i = 1 ; i < yarray5.length; i++){
+                  tmp.push(parseFloat(parseInt(yarray5[i])/parseInt(yarray5[0])).toFixed(3));
+                  tmpColor.push(Math.floor(Math.random()*16777215).toString(16));
+                }
+                var trace5 = {
+                  x: xarray,
+                  y: tmp,
+                  name: 'perfornamce',
+                  type: 'bar',
+                  text: tmp.map(String),
+                  marker: {
+                    color: tmpColor
+                  }
+                };
+                
+                  var dataTrace = [trace1, trace2, trace3, trace4];
+                  
+                  var layout ={
+                    title: title ,
+                    barmode: 'stack',
+                  };
+        
+                    plots.push(
+                      <div>
+                      <Plot
+                        data = {dataTrace}
+                        layout={layout}
+                        /> 
+                    </div>      
+                );
+        
+                plots.push(
+                  <div>
+                  <Plot
+                    data = {[trace5]}
+                    layout={layout}
+                    /> 
+                </div>      
+              );   
+              });
+        }else{
+          title = this.props.TagKeyFilterString;
+          gen_data.forEach((value,key) =>{
+            switch(key){
+               case "Baseline":
+                 xarray[0]=key;
+                 value.forEach((item) => {
+                  if(item.key === "spark initialize"){
+                        yarray1[0] = item.value
+                      }else if(item.key === "initialize"){
+                        yarray2[0] = item.value
+                      }else if(item.key === "training"){
+                        yarray3[0] = item.value
+                      }else if(item.key === "driver training"){
+                        yarray4[0] = item.value
+                      }else if(item.key === "total"){
+                        yarray5[0] = item.value
+                      }
+                 });
+                 break;
+               case "MKL" || "Openbals":
+                  xarray[1]=key;
+                  value.forEach((item) => {
+                  if(item.key === "spark initialize"){
+                        yarray1[1] = item.value
+                      }else if(item.key === "initialize"){
+                        yarray2[1] = item.value
+                      }else if(item.key === "training"){
+                        yarray3[1] = item.value
+                      }else if(item.key === "driver training"){
+                        yarray4[1] = item.value
+                      }else if(item.key === "total"){
+                        yarray5[1] = item.value
+                      }
+                  });
+                 break;
+               case "OAP":
+                  xarray[2]=key;
+                  value.forEach((item) => {
+                  if(item.key === "spark initialize"){
+                        yarray1[2] = item.value
+                      }else if(item.key === "initialize"){
+                        yarray2[2] = item.value
+                      }else if(item.key === "training"){
+                        yarray3[2] = item.value
+                      }else if(item.key === "driver training"){
+                        yarray4[2] = item.value
+                      }else if(item.key === "total"){
+                        yarray5[2] = item.value
+                      }
+                  });
+                 break;
+            }
+          });    
+          var trace1 = {
+            x: xarray,
+            y: yarray1,
+            name: 'spark initialize',
+            orientation: 'w',
+            marker: {
+              color: 'rgba(255,0,0,0.3)',
+              width: 1
+            },
+            type: 'bar'
+          };
+          
+          var trace2 = {
+            x: xarray,
+            y: yarray2,
+            name: 'initialize',
+            orientation: 'w',
+            type: 'bar',
+            marker: {
+              color: 'rgba(0,255,0,0.3)',
+              width: 1
+            }
+          };
+  
+          var trace3 = {
+            x: xarray,
+            y: yarray3,
+            name: 'training',
+            orientation: 'w',
+            type: 'bar',
+            marker: {
+              color: 'rgba(0,0,255,0.3)',
+              width: 1
+            }
+          };
+  
+          var trace4 = {
+            x: xarray,
+            y: yarray4,
+            name: 'driver training',
+            orientation: 'w',
+            type: 'bar',
+            marker: {
+              color: 'rgba(255,0,255,0.3)',
+              width: 1
+            }
+          };
+  
+          const tmp = [1, parseFloat(parseInt(yarray5[1])/parseInt(yarray5[0])).toFixed(3), parseFloat(parseInt(yarray5[2])/parseInt(yarray5[0])).toFixed(3)];
+          var trace5 = {
+            x: xarray,
+            y: tmp,
+            name: 'perfornamce',
+            type: 'bar',
+            text: tmp.map(String),
+            marker: {
+              color: ['rgba(204,204,204,1)', 'rgba(222,45,38,0.8)', 'rgba(255,0,255,0.3)']
+            }
+          };
+          
+            var dataTrace = [trace1, trace2, trace3, trace4];
+            
+            var layout ={
+              title: title ,
+              barmode: 'stack',
+            };
+  
+              plots.push(
+                <div style={{ height: containerHeight }}>
+                <Plot
+                  data = {dataTrace}
+                  layout={layout}
+                  /> 
+              </div>      
           );
+  
+          plots.push(
+            <div style={{ height: containerHeight }}>
+            <Plot
+              data = {[trace5]}
+              layout={layout}
+              /> 
+          </div>      
+        );   
+      }
+
+
+        return(
+          <div style={{ height: containerHeight }}>
+          {plots}
+        </div>
+        );
       }
 }
 
@@ -170,12 +448,11 @@ export const mapStateToProps = (state, ownProps) => {
   tagsMap.forEach((item,run_uuid) =>{
       const metricsByRunUuid = getLatestMetrics(run_uuid, state);
       const metrics = Object.values(metricsByRunUuid || {});
-      metrics.forEach((metric) => {
-        if(metric.key === "total"){
-          metricMap.set(run_uuid, metric)
-        }
-      });              
+      metricMap.set(run_uuid, metrics);        
   });
+
+  console.log("metricMap");
+  console.log(metricMap);
 
   const gen_data = new Map()
   metricMap.forEach((item, run_id) =>{
@@ -191,21 +468,31 @@ export const mapStateToProps = (state, ownProps) => {
               platform = value.value;
             }
           });
-          if(item.key === "total"){
-            total= item.value;
-          }
          }
     })
     if(ownProps.TagKeyFilterString === "Total"){
-      gen_data.set(run_name +'_'+ platform ,total);
+      gen_data.set(run_name +'_'+ platform ,item);
     }else {
-      gen_data.set(run_name,total);
+      gen_data.set(run_name,item);
     }
   })
   console.log("gen_data");
   console.log(gen_data);
 
-  return { gen_data, plot_name};
+  var total_gen_data = new Map();
+  var keys = gen_data.keys();
+  for (var key of keys) {
+     var tmp = key.split("_");
+     if(total_gen_data.has(tmp[1]) === false){
+      total_gen_data.set(tmp[1], new Map().set(key, gen_data.get(key)));
+    }else{
+      total_gen_data.get(tmp[1]).set(key, gen_data.get(key));
+    }
+  }  
+  console.log("total_gen_data");
+  console.log(total_gen_data);
+
+  return { gen_data, plot_name,total_gen_data};
 };
 
 export default connect(mapStateToProps)(ChartPlotView);

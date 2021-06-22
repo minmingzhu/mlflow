@@ -79,7 +79,7 @@ class App extends Component {
                   className='header-nav-link header-nav-link-dashboard'
                 >
                   <div className='dashboard'>
-                    <span>dashboard</span>
+                    <span>Dashboard</span>
                   </div>
                 </NavLink>
                 <NavLink
@@ -89,7 +89,7 @@ class App extends Component {
                   className='header-nav-link header-nav-link-chartshow'
                 >
                   <div className='chartshow'>
-                    <span>chartshow</span>
+                    <span>Charts</span>
                   </div>
                 </NavLink>
                 <NavLink
@@ -99,7 +99,7 @@ class App extends Component {
                   className='header-nav-link header-nav-link-milestones'
                 >
                   <div className='milestones'>
-                    <span>milestones</span>
+                    <span>Milestones</span>
                   </div>
                 </NavLink>
               </div>

@@ -85,34 +85,39 @@ export class ChartView extends React.Component {
         <div className='outer-container' style={{ height: containerHeight }}>
           <RequestStateWrapper shouldOptimisticallyRender requestIds={this.getRequestIds()}>
           <div className='chart-list-container' style={{ height: experimentListHeight }}>
-            <label>
-                experiment_id:
-                  <select defaultValue={this.props.ExperimentKeyFilterString} name="ExperimentKeyFilterString" class="ui dropdown"  value={this.state.ExperimentKeyFilterString} onChange={this.handleChange}>
-                      {this.props.experiments
-                        // filter experiments based on searchInput
-                        .filter((exp) =>
-                          exp
-                            .getName(),
-                        )
-                        .map((exp) => {
-                          const { name, experiment_id } = exp;
-                          return (
-                              <option  key={experiment_id} value = {experiment_id} > {name} </option>
-                          );
-                        })}
-                  </select>
-                  <p>{experimentmessage}</p>
-              </label>
+            <div>
               <label>
-                  Platfrom:
-                  <select defaultValue={this.props.TagKeyFilterString} name="TagKeyFilterString" class="ui dropdown" value={this.state.TagKeyFilterString} onChange={this.handleChange}>
-                    <option value="ICX">ICX</option>
-                    <option value="Rome">Rome</option>
-                    <option value="CLX8280">CLX8280</option>
-                    <option value="Total">Total</option>
-                  </select>
-                  <p>{platfrommessage}</p>
+                  Experiment_id:
+                    <select defaultValue={this.props.ExperimentKeyFilterString} name="ExperimentKeyFilterString" class="ui dropdown"  value={this.state.ExperimentKeyFilterString} onChange={this.handleChange}>
+                        {this.props.experiments
+                          // filter experiments based on searchInput
+                          .filter((exp) =>
+                            exp
+                              .getName(),
+                          )
+                          .map((exp) => {
+                            const { name, experiment_id } = exp;
+                            return (
+                                <option  key={experiment_id} value = {experiment_id} > {name} </option>
+                            );
+                          })}
+                    </select>
+                    <p>{experimentmessage}</p>
                 </label>
+              </div>
+              <div>
+                <label>
+                    Platfrom:
+                    <select defaultValue={this.props.TagKeyFilterString} name="TagKeyFilterString" class="ui dropdown" value={this.state.TagKeyFilterString} onChange={this.handleChange}>
+                      <option value="Default">Default</option>
+                      <option value="ICX">ICX</option>
+                      <option value="Rome">Rome</option>
+                      <option value="CLX8280">CLX8280</option>
+                      <option value="Total">Total</option>
+                    </select>
+                    <p>{platfrommessage}</p>
+                  </label>
+                </div>
                 <div className='search-control-btns'>
                     <Button type='primary' className='search-button' onClick={this.onSearch}>
                         Search
