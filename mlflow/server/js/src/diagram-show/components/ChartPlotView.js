@@ -83,8 +83,8 @@ export class ChartPlotView extends React.Component {
                     const tmpMaps_i = total_gen_data.get(sortKeys[i]);
                     const tmpMaps_j = total_gen_data.get(sortKeys[j]);
                     const tmpMaps = new Map();
-                    tmpMaps_i.forEach((value, key ) => tmpMaps.set(key, value));
-                    tmpMaps_j.forEach((value, key ) => tmpMaps.set(key, value));
+                    tmpMaps_i.forEach((value, key) => tmpMaps.set(key, value));
+                    tmpMaps_j.forEach((value, key) => tmpMaps.set(key, value));
                     dataMap.set(tmpString, tmpMaps);
                   }          
                 }
@@ -164,7 +164,7 @@ export class ChartPlotView extends React.Component {
                 var tmp = [1];
                 var tmpColor = ['rgba(204,204,204,1)'];
                 for(let i = 1 ; i < yarray5.length; i++){
-                  tmp.push(parseFloat(parseInt(yarray5[i])/parseInt(yarray5[0])).toFixed(3));
+                  tmp.push(parseFloat(parseInt(yarray5[0])/parseInt(yarray5[i])).toFixed(3));
                   tmpColor.push(Math.floor(Math.random()*16777215).toString(16));
                 }
                 var trace5 = {
@@ -203,70 +203,70 @@ export class ChartPlotView extends React.Component {
           title = this.props.TagKeyFilterString;
           gen_data.forEach((value,key) =>{
             switch(key){
-               case "Vanilla":
-                 xarray[0]=key;
-                 value.forEach((item) => {
-                  if(item.key === "spark initialize"){
-                        yarray1[0] = item.value
-                      }else if(item.key === "initialize"){
-                        yarray2[0] = item.value
-                      }else if(item.key === "training"){
-                        yarray3[0] = item.value
-                      }else if(item.key === "driver training"){
-                        yarray4[0] = item.value
-                      }else if(item.key === "total"){
-                        yarray5[0] = item.value
-                      }
-                 });
-                 break;
-               case "MKL":
-                  xarray[1]=key;
-                  value.forEach((item) => {
-                  if(item.key === "spark initialize"){
-                        yarray1[1] = item.value
-                      }else if(item.key === "initialize"){
-                        yarray2[1] = item.value
-                      }else if(item.key === "training"){
-                        yarray3[1] = item.value
-                      }else if(item.key === "driver training"){
-                        yarray4[1] = item.value
-                      }else if(item.key === "total"){
-                        yarray5[1] = item.value
-                      }
-                  });
-                  break;
-                case "Openblas":
-                  xarray[1]=key;
-                  value.forEach((item) => {
-                  if(item.key === "spark initialize"){
-                        yarray1[1] = item.value
-                      }else if(item.key === "initialize"){
-                        yarray2[1] = item.value
-                      }else if(item.key === "training"){
-                        yarray3[1] = item.value
-                      }else if(item.key === "driver training"){
-                        yarray4[1] = item.value
-                      }else if(item.key === "total"){
-                        yarray5[1] = item.value
-                      }
-                  });
-                  break;
-                case "OAP":
-                    xarray[2]=key;
+                  case "Vanilla":
+                    xarray[0]=key;
+                    value.forEach((item) => {
+                      if(item.key === "spark initialize"){
+                              yarray1[0] = item.value
+                            }else if(item.key === "initialize"){
+                              yarray2[0] = item.value
+                            }else if(item.key === "training"){
+                              yarray3[0] = item.value
+                            }else if(item.key === "driver training"){
+                              yarray4[0] = item.value
+                            }else if(item.key === "total"){
+                              yarray5[0] = item.value
+                            }
+                        });
+                        break;
+                  case "MKL":
+                    xarray[1]=key;
                     value.forEach((item) => {
                     if(item.key === "spark initialize"){
-                          yarray1[2] = item.value
+                          yarray1[1] = item.value
                         }else if(item.key === "initialize"){
-                          yarray2[2] = item.value
+                          yarray2[1] = item.value
                         }else if(item.key === "training"){
-                          yarray3[2] = item.value
+                          yarray3[1] = item.value
                         }else if(item.key === "driver training"){
-                          yarray4[2] = item.value
+                          yarray4[1] = item.value
                         }else if(item.key === "total"){
-                          yarray5[2] = item.value
+                          yarray5[1] = item.value
                         }
                     });
-                  break;
+                    break;
+                  case "Openblas":
+                    xarray[1]=key;
+                    value.forEach((item) => {
+                    if(item.key === "spark initialize"){
+                          yarray1[1] = item.value
+                        }else if(item.key === "initialize"){
+                          yarray2[1] = item.value
+                        }else if(item.key === "training"){
+                          yarray3[1] = item.value
+                        }else if(item.key === "driver training"){
+                          yarray4[1] = item.value
+                        }else if(item.key === "total"){
+                          yarray5[1] = item.value
+                        }
+                    });
+                    break;
+                  case "OAP":
+                      xarray[2]=key;
+                      value.forEach((item) => {
+                      if(item.key === "spark initialize"){
+                            yarray1[2] = item.value
+                          }else if(item.key === "initialize"){
+                            yarray2[2] = item.value
+                          }else if(item.key === "training"){
+                            yarray3[2] = item.value
+                          }else if(item.key === "driver training"){
+                            yarray4[2] = item.value
+                          }else if(item.key === "total"){
+                            yarray5[2] = item.value
+                          }
+                      });
+                    break;
             }
           });
           console.log("yarray");
@@ -326,7 +326,7 @@ export class ChartPlotView extends React.Component {
             }
           };
   
-          const tmp = [1, parseFloat(parseInt(yarray5[1])/parseInt(yarray5[0])).toFixed(3), parseFloat(parseInt(yarray5[2])/parseInt(yarray5[0])).toFixed(3)];
+          const tmp = [1, parseFloat(parseInt(yarray5[0])/parseInt(yarray5[1])).toFixed(3), parseFloat(parseInt(yarray5[0])/parseInt(yarray5[2])).toFixed(3)];
           var trace5 = {
             x: xarray,
             y: tmp,
