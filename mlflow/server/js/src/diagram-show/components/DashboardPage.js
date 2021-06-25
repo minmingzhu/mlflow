@@ -90,13 +90,13 @@ export class DashboardPageImpl extends React.Component {
 
       },  {
         Header: 'CLX Vanilla',
-        accessor: 'Vanilla_CLX',
+        accessor: 'Vanilla_CLX8280',
       },{
         Header: 'CLX MKL',
-        accessor: 'MKL_CLX',
+        accessor: 'MKL_CLX8280',
       }, {
         Header: 'CLX OAP',
-        accessor: 'OAP_CLX',
+        accessor: 'OAP_CLX8280',
 
       },{
         Header: 'Rome Vanilla',
@@ -295,7 +295,7 @@ export class DashboardPageImpl extends React.Component {
           const tmp = key.split("_");
           if(tmp[1] === "ICX"){
             ICXmap.set(tmp[0],value);
-          }else if(tmp[1] === "CLX"){
+          }else if(tmp[1] === "CLX8280"){
             CLXmap.set(tmp[0],value);
           }else if(tmp[1] === "Rome"){
             Romemap.set(tmp[0],value);
