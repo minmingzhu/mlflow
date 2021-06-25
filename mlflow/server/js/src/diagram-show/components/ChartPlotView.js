@@ -105,6 +105,12 @@ export class ChartPlotView extends React.Component {
               console.log(dataMap);
 
               dataMap.forEach((value, key) => {
+                var yarray1 = [];
+                var yarray2 = [];
+                var yarray3 = [];
+                var yarray4 = [];
+                var yarray5 = [];
+                var xarray = [];
                 title = key;
                 let i = 0;
                 value.forEach((value1, key1) => {
@@ -124,6 +130,14 @@ export class ChartPlotView extends React.Component {
                   });
                   i = i + 1 ;
                 });
+
+                console.log("yarray");
+                console.log(yarray1);
+                console.log(yarray2);
+                console.log(yarray3);
+                console.log(yarray4);
+                console.log(yarray5);
+                console.log(xarray);
 
                 var trace1 = {
                   x: xarray,
