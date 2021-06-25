@@ -43,12 +43,12 @@ export class ChartPlotView extends React.Component {
         const {gen_data} = this.props;
 
         let plots = [];
-        var yarray1 = [gen_data.size];
-        var yarray2 = [gen_data.size];
-        var yarray3 = [gen_data.size];
-        var yarray4 = [gen_data.size];
-        var yarray5 = [gen_data.size];
-        var xarray = [gen_data.size];
+        var yarray1 = [];
+        var yarray2 = [];
+        var yarray3 = [];
+        var yarray4 = [];
+        var yarray5 = [];
+        var xarray = [];
         var title = '';
         if(this.props.TagKeyFilterString === "Total"){
           var total_gen_data = new Map();
@@ -94,12 +94,6 @@ export class ChartPlotView extends React.Component {
 
               dataMap.forEach((value, key) => {
                 title = key;
-                yarray1 = [value.size];
-                yarray2 = [value.size];
-                yarray3 = [value.size];
-                yarray4 = [value.size];
-                yarray5 = [value.size];
-                xarray = [value.size];
                 let i = 0;
                 value.forEach((value1, key1) => {
                   xarray[i]=key1;
@@ -209,7 +203,7 @@ export class ChartPlotView extends React.Component {
           title = this.props.TagKeyFilterString;
           gen_data.forEach((value,key) =>{
             switch(key){
-               case "Baseline":
+               case "Vanilla":
                  xarray[0]=key;
                  value.forEach((item) => {
                   if(item.key === "spark initialize"){
@@ -472,7 +466,12 @@ export const mapStateToProps = (state, ownProps) => {
          if(run_id === r_id){
           it.forEach((value) => {
             if(value.key === "mlflow.runName"){
-              run_name = value.value;
+              var tmp = tag.value.split("_");
+              if(tmp.length > 1) {
+                run_name = tmp[0];
+              } else {
+                run_name = tag.value;
+              }
             }else if(value.key === "platform"){
               platform = value.value;
             }
