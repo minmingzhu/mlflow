@@ -10,7 +10,6 @@ import { getUUID } from '../../common/utils/ActionUtils';
 import PropTypes from 'prop-types';
 import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 import Utils from '../../common/utils/Utils';
-import { split } from 'lodash';
 
 export const COMPARE = {VANILLA_MKL_ICX:"VANILLA_MKL_ICX",
                         VANILLA_OAP_ICX:"VANILLA_OAP_ICX",

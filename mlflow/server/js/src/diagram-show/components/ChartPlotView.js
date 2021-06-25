@@ -5,10 +5,7 @@ import { getRunInfo, getExperiments,getRunTags } from '../../experiment-tracking
 import { connect } from 'react-redux';
 import console from "react-console";
 import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
-import { Experiment, MetricSearchExpression, RunInfo } from '../../experiment-tracking/sdk/MlflowMessages';
-import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
-import Utils from '../../common/utils/Utils';
-import { getUUID } from '../../common/utils/ActionUtils';
+import { Experiment, RunInfo } from '../../experiment-tracking/sdk/MlflowMessages';
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
 export const BASELINE_SORT = ['Rome', 'CLX', 'ICX'];
@@ -184,21 +181,17 @@ export class ChartPlotView extends React.Component {
                   };
         
                     plots.push(
-                      <div>
                       <Plot
                         data = {dataTrace}
                         layout={layout}
                         /> 
-                    </div>      
                 );
         
                 plots.push(
-                  <div>
                   <Plot
                     data = {[trace5]}
                     layout={layout}
                     /> 
-                </div>      
               );   
               });
         }else{
@@ -323,21 +316,17 @@ export class ChartPlotView extends React.Component {
             };
   
               plots.push(
-                <div style={{ height: containerHeight }}>
                 <Plot
                   data = {dataTrace}
                   layout={layout}
                   /> 
-              </div>      
           );
   
           plots.push(
-            <div style={{ height: containerHeight }}>
             <Plot
               data = {[trace5]}
               layout={layout}
               /> 
-          </div>      
         );   
       }
 
