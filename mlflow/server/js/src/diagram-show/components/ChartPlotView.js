@@ -9,6 +9,7 @@ import { Experiment, RunInfo } from '../../experiment-tracking/sdk/MlflowMessage
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
 export const BASELINE_SORT = ['Rome', 'CLX8280', 'ICX'];
+export const VANILLA_SORT = ['Vanilla_Rome', 'Openblas_Rome', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX', 'MKL_ICX', 'OAP_ICX'];
 
 export class ChartPlotView extends React.Component {
   constructor(props) {
@@ -51,16 +52,25 @@ export class ChartPlotView extends React.Component {
         var xarray = [];
         var title = '';
         if(this.props.TagKeyFilterString === "Total"){
+          const tmpTotalKeys = Array.from(gen_data.keys());
+          var sortTotalKeys = [];
+          VANILLA_SORT.forEach((item) => {
+            tmpTotalKeys.forEach((item1) =>{
+              if(item === item1){
+                sortTotalKeys.push(item1);
+              }
+            });
+          });
+         
           var total_gen_data = new Map();
-          var keys = gen_data.keys();
-          for (var key of keys) {
-             var tmp = key.split("_");
-             if(total_gen_data.has(tmp[1]) === false){
-              total_gen_data.set(tmp[1], new Map().set(key, gen_data.get(key)));
-            }else{
-              total_gen_data.get(tmp[1]).set(key, gen_data.get(key));
-            }
-          }  
+          sortTotalKeys.forEach((item) => {
+              var item = key.split("_");
+              if(total_gen_data.has(item[1]) === false){
+                total_gen_data.set(item[1], new Map().set(key, gen_data.get(key)));
+              }else{
+                total_gen_data.get(item[1]).set(key, gen_data.get(key));
+              }
+          });
         
           var dataMap = new Map();
               const tmpKeys = Array.from(total_gen_data.keys());
@@ -201,6 +211,8 @@ export class ChartPlotView extends React.Component {
               });
         }else{
           title = this.props.TagKeyFilterString;
+          console.log("sortKeys");
+          console.log(sortKeys);
           gen_data.forEach((value,key) =>{
             switch(key){
                   case "Vanilla":
