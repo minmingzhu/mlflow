@@ -184,18 +184,18 @@ export class ChartPlotView extends React.Component {
                   }
                 };
                 
-                  var dataTrace = [trace1, trace2, trace3, trace4];
-                  
-                  var layout ={
-                    title: title ,
-                    barmode: 'stack',
-                  };
+                var dataTrace = [trace1, trace2, trace3, trace4];
+                
+                var layout ={
+                  title: title ,
+                  barmode: 'stack',
+                };
         
-                    plots.push(
-                      <Plot
-                        data = {dataTrace}
-                        layout={layout}
-                        /> 
+                plots.push(
+                  <Plot
+                    data = {dataTrace}
+                    layout={layout}
+                    /> 
                 );
         
                 plots.push(
@@ -203,7 +203,7 @@ export class ChartPlotView extends React.Component {
                     data = {[trace5]}
                     layout={layout}
                     /> 
-              );   
+                );   
               });
         }else{
           title = this.props.TagKeyFilterString;
@@ -241,7 +241,7 @@ export class ChartPlotView extends React.Component {
                       }
                   });
                  break;
-               case "OAP":
+               case "OAP_MLLIB":
                   xarray[2]=key;
                   value.forEach((item) => {
                   if(item.key === "spark initialize"){
@@ -259,6 +259,11 @@ export class ChartPlotView extends React.Component {
                  break;
             }
           });    
+          console.log("xarray");
+          console.log(xarray);
+          console.log("yarray1");
+          console.log(yarray1);
+
           var trace1 = {
             x: xarray,
             y: yarray1,
@@ -339,6 +344,8 @@ export class ChartPlotView extends React.Component {
               layout={layout}
               /> 
         );   
+        console.log("plots");
+        console.log(plots);
       }
 
 
@@ -371,30 +378,30 @@ export const mapStateToProps = (state, ownProps) => {
 
     const tagsSet = new Set();
     runInfos.map((runInfo) => {
-      const tagsByRunUuid = getRunTags(runInfo.getRunUuid(), state);
-      const {start_time: startTime } = runInfo;
-      const tags = Object.values(tagsByRunUuid || {});
-      var run_name ="";
-      var platform ="";
-      var isdabosrd="";
-      tags.forEach((tag) => {
+        const tagsByRunUuid = getRunTags(runInfo.getRunUuid(), state);
+        const {start_time: startTime } = runInfo;
+        const tags = Object.values(tagsByRunUuid || {});
+        var run_name ="";
+        var platform ="";
+        var isdabosrd="";
+        tags.forEach((tag) => {
 
-        if(tag.key === "mlflow.runName"){
-          run_name = tag.value;
-        }else if(tag.key === "platform") {
-          platform = tag.value;
-        }
-        if(tag.key === "dashboard"){
-          isdabosrd = tag.value;
+          if(tag.key === "mlflow.runName"){
+            run_name = tag.value;
+          }else if(tag.key === "platform") {
+            platform = tag.value;
+          }
+          if(tag.key === "dashboard"){
+            isdabosrd = tag.value;
+          }
+        });
+        if(isdabosrd === "true"){
+          const newString = runInfo.getRunUuid() + '_' + startTime + '_' + run_name + '_' + platform ;
+          tagsSet.add(newString);
         }
       });
-      if(isdabosrd === "true"){
-        const newString = runInfo.getRunUuid() + '_' + startTime + '_' + run_name + '_' + platform ;
-        tagsSet.add(newString);
-      }
-   });
-  console.log("tagsSet");
-  console.log(tagsSet);
+    console.log("tagsSet");
+    console.log(tagsSet);
 
     const latesttagsMap = new Map();
     tagsSet.forEach((string) => {
@@ -419,29 +426,28 @@ export const mapStateToProps = (state, ownProps) => {
     console.log(latesttagsMap);
 
 
-  const tagsMap = new Map();
-  const tagsList = latesttagsMap.forEach((value,key) => {
-    const tmpvalue = value.split('_');
-    const tagsByRunUuid = getRunTags(tmpvalue[0], state);
-    const tags = Object.values(tagsByRunUuid || {});
-    var isdabosrd="false";
-    var checkPlatform = "false";
-    tags.forEach((tag) => {
-      if(tag.key === "dashboard"){
-        if(tag.value === "true"){
-          isdabosrd="true";
+    const tagsMap = new Map();
+    const tagsList = latesttagsMap.forEach((value,key) => {
+      const tmpvalue = value.split('_');
+      const tagsByRunUuid = getRunTags(tmpvalue[0], state);
+      const tags = Object.values(tagsByRunUuid || {});
+      var isdabosrd="false";
+      var checkPlatform = "false";
+      tags.forEach((tag) => {
+        if(tag.key === "dashboard"){
+          if(tag.value === "true"){
+            isdabosrd="true";
+          }
+        }else if(tag.key === "platform"){
+          if(tag.value === ownProps.TagKeyFilterString || ownProps.TagKeyFilterString === "Total"){
+            checkPlatform = "true";
+          }         
         }
-      }else if(tag.key === "platform"){
-        if(tag.value === ownProps.TagKeyFilterString || ownProps.TagKeyFilterString === "Total"){
-          checkPlatform = "true";
-        }         
-      }
-      if(isdabosrd === "true"&&checkPlatform === "true"){
-        tagsMap.set(tmpvalue[0],tags)
-      }
-    });
-    return tags;
-
+        if(isdabosrd === "true"&&checkPlatform === "true"){
+          tagsMap.set(tmpvalue[0],tags)
+        }
+      });
+      return tags;
   });
 
   const metricMap = new Map();
