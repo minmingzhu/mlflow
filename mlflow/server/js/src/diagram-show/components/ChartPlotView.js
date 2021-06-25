@@ -122,7 +122,7 @@ export class ChartPlotView extends React.Component {
                       yarray2[i] = item.value
                     }else if(item.key === "training"){
                       yarray3[i] = item.value
-                    }else if(item.key === "summary"){
+                    }else if(item.key === "summary" || item.key === "driver training"){
                       yarray4[i] = item.value
                     }else if(item.key === "total"){
                       yarray5[i] = item.value
@@ -240,7 +240,7 @@ export class ChartPlotView extends React.Component {
                               yarray2[0] = item.value
                             }else if(item.key === "training"){
                               yarray3[0] = item.value
-                            }else if(item.key === "summary"){
+                            }else if(item.key === "summary" || item.key === "driver training"){
                               yarray4[0] = item.value
                             }else if(item.key === "total"){
                               yarray5[0] = item.value
@@ -256,7 +256,7 @@ export class ChartPlotView extends React.Component {
                           yarray2[1] = item.value
                         }else if(item.key === "training"){
                           yarray3[1] = item.value
-                        }else if(item.key === "summary"){
+                        }else if(item.key === "summary" || item.key === "driver training"){
                           yarray4[1] = item.value
                         }else if(item.key === "total"){
                           yarray5[1] = item.value
@@ -272,7 +272,7 @@ export class ChartPlotView extends React.Component {
                           yarray2[1] = item.value
                         }else if(item.key === "training"){
                           yarray3[1] = item.value
-                        }else if(item.key === "summary"){
+                        }else if(item.key === "summary" || item.key === "driver training"){
                           yarray4[1] = item.value
                         }else if(item.key === "total"){
                           yarray5[1] = item.value
@@ -288,7 +288,7 @@ export class ChartPlotView extends React.Component {
                             yarray2[2] = item.value
                           }else if(item.key === "training"){
                             yarray3[2] = item.value
-                          }else if(item.key === "summary"){
+                          }else if(item.key === "summary" || item.key === "driver training"){
                             yarray4[2] = item.value
                           }else if(item.key === "total"){
                             yarray5[2] = item.value

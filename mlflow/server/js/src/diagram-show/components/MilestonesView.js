@@ -79,8 +79,6 @@ export class MilestonesView extends React.Component {
       // 100 for the experiments header and some for bottom padding.
       const experimentListHeight = height - 50 - 100;
       const { searchInput } = this.state;
-      var experimentmessage='You selected ' + this.state.ExperimentKeyFilterString;
-      var platfrommessage='You selected ' + this.state.TagKeyFilterString;
       return (
         <div className='outer-container' style={{ height: containerHeight }}>
           <RequestStateWrapper shouldOptimisticallyRender requestIds={this.getRequestIds()}>
@@ -102,7 +100,6 @@ export class MilestonesView extends React.Component {
                             );
                           })}
                     </select>
-                    <p>{experimentmessage}</p>
                 </label>
               </div>
               <div>
@@ -115,7 +112,6 @@ export class MilestonesView extends React.Component {
                       <option value="CLX8280">CLX8280</option>
                       <option value="Total">Total</option>
                     </select>
-                    <p>{platfrommessage}</p>
                   </label>
                 </div>
                 <div className='search-control-btns'>
