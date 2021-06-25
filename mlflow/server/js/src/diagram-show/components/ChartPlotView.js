@@ -258,7 +258,15 @@ export class ChartPlotView extends React.Component {
                   });
                  break;
             }
-          });    
+          });
+          console.log("yarray");
+          console.log(yarray1);
+          console.log(yarray2);
+          console.log(yarray3);
+          console.log(yarray4);
+          console.log(yarray5);
+          console.log(xarray);
+
 
           var trace1 = {
             x: xarray,
@@ -377,9 +385,13 @@ export const mapStateToProps = (state, ownProps) => {
         var platform ="";
         var isdabosrd="";
         tags.forEach((tag) => {
-
           if(tag.key === "mlflow.runName"){
-            run_name = tag.value;
+            var tmp = tag.value.split("_");
+            if(tmp.length > 1) {
+              run_name = tmp[0];
+            } else {
+              run_name = tag.value;
+            }
           }else if(tag.key === "platform") {
             platform = tag.value;
           }
