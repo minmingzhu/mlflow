@@ -219,7 +219,7 @@ export class ChartPlotView extends React.Component {
                       }
                  });
                  break;
-               case "MKL" || "Openblas":
+               case "MKL":
                   xarray[1]=key;
                   value.forEach((item) => {
                   if(item.key === "spark initialize"){
@@ -234,7 +234,23 @@ export class ChartPlotView extends React.Component {
                         yarray5[1] = item.value
                       }
                   });
-                 break;
+                  break;
+                case "Openblas":
+                  xarray[1]=key;
+                  value.forEach((item) => {
+                  if(item.key === "spark initialize"){
+                        yarray1[1] = item.value
+                      }else if(item.key === "initialize"){
+                        yarray2[1] = item.value
+                      }else if(item.key === "training"){
+                        yarray3[1] = item.value
+                      }else if(item.key === "driver training"){
+                        yarray4[1] = item.value
+                      }else if(item.key === "total"){
+                        yarray5[1] = item.value
+                      }
+                  });
+                  break;
                case "OAP_MLLIB":
                   xarray[2]=key;
                   value.forEach((item) => {
