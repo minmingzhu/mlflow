@@ -251,22 +251,22 @@ export class ChartPlotView extends React.Component {
                       }
                   });
                   break;
-               case "OAP_MLLIB":
-                  xarray[2]=key;
-                  value.forEach((item) => {
-                  if(item.key === "spark initialize"){
-                        yarray1[2] = item.value
-                      }else if(item.key === "initialize"){
-                        yarray2[2] = item.value
-                      }else if(item.key === "training"){
-                        yarray3[2] = item.value
-                      }else if(item.key === "driver training"){
-                        yarray4[2] = item.value
-                      }else if(item.key === "total"){
-                        yarray5[2] = item.value
-                      }
-                  });
-                 break;
+                case "OAP":
+                    xarray[2]=key;
+                    value.forEach((item) => {
+                    if(item.key === "spark initialize"){
+                          yarray1[2] = item.value
+                        }else if(item.key === "initialize"){
+                          yarray2[2] = item.value
+                        }else if(item.key === "training"){
+                          yarray3[2] = item.value
+                        }else if(item.key === "driver training"){
+                          yarray4[2] = item.value
+                        }else if(item.key === "total"){
+                          yarray5[2] = item.value
+                        }
+                    });
+                  break;
             }
           });
           console.log("yarray");
