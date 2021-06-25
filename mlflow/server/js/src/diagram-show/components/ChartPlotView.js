@@ -466,11 +466,11 @@ export const mapStateToProps = (state, ownProps) => {
          if(run_id === r_id){
           it.forEach((value) => {
             if(value.key === "mlflow.runName"){
-              var tmp = tag.value.split("_");
+              var tmp = value.value.split("_");
               if(tmp.length > 1) {
                 run_name = tmp[0];
               } else {
-                run_name = tag.value;
+                run_name = value.value;
               }
             }else if(value.key === "platform"){
               platform = value.value;
