@@ -225,7 +225,7 @@ export class ChartPlotView extends React.Component {
                       }
                  });
                  break;
-               case "MKL" || "Openbals":
+               case "MKL" || "Openblas":
                   xarray[1]=key;
                   value.forEach((item) => {
                   if(item.key === "spark initialize"){
