@@ -40,7 +40,7 @@ export class ChartPlotView extends React.Component {
         // 60 pixels for the height of the top bar.
         // 100 for the experiments header and some for bottom padding.
         const experimentListHeight = height - 50 - 100;
-        const {gen_data, total_gen_data} = this.props;
+        const {gen_data} = this.props;
 
         let plots = [];
         var yarray1 = [gen_data.size];
@@ -51,6 +51,17 @@ export class ChartPlotView extends React.Component {
         var xarray = [gen_data.size];
         var title = '';
         if(this.props.TagKeyFilterString === "Total"){
+          var total_gen_data = new Map();
+          var keys = gen_data.keys();
+          for (var key of keys) {
+             var tmp = key.split("_");
+             if(total_gen_data.has(tmp[1]) === false){
+              total_gen_data.set(tmp[1], new Map().set(key, gen_data.get(key)));
+            }else{
+              total_gen_data.get(tmp[1]).set(key, gen_data.get(key));
+            }
+          }  
+        
           var dataMap = new Map();
               const tmpKeys = Array.from(total_gen_data.keys());
               var sortKeys = [];
@@ -308,18 +319,18 @@ export class ChartPlotView extends React.Component {
             }
           };
           
-            var dataTrace = [trace1, trace2, trace3, trace4];
-            
-            var layout ={
-              title: title ,
-              barmode: 'stack',
-            };
+          var dataTrace = [trace1, trace2, trace3, trace4];
+          
+          var layout ={
+            title: title ,
+            barmode: 'stack',
+          };
   
-              plots.push(
-                <Plot
-                  data = {dataTrace}
-                  layout={layout}
-                  /> 
+          plots.push(
+            <Plot
+              data = {dataTrace}
+              layout={layout}
+              /> 
           );
   
           plots.push(
@@ -446,7 +457,6 @@ export const mapStateToProps = (state, ownProps) => {
   const gen_data = new Map()
   metricMap.forEach((item, run_id) =>{
     var run_name ="";
-    var total ="";
     var platform = "";
     tagsMap.forEach((it, r_id) =>{
          if(run_id === r_id){
@@ -468,20 +478,7 @@ export const mapStateToProps = (state, ownProps) => {
   console.log("gen_data");
   console.log(gen_data);
 
-  var total_gen_data = new Map();
-  var keys = gen_data.keys();
-  for (var key of keys) {
-     var tmp = key.split("_");
-     if(total_gen_data.has(tmp[1]) === false){
-      total_gen_data.set(tmp[1], new Map().set(key, gen_data.get(key)));
-    }else{
-      total_gen_data.get(tmp[1]).set(key, gen_data.get(key));
-    }
-  }  
-  console.log("total_gen_data");
-  console.log(total_gen_data);
-
-  return { gen_data, plot_name,total_gen_data};
+  return { gen_data, plot_name};
 };
 
 export default connect(mapStateToProps)(ChartPlotView);
