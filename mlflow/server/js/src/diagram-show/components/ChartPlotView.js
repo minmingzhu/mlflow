@@ -8,7 +8,7 @@ import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReduc
 import { Experiment, RunInfo } from '../../experiment-tracking/sdk/MlflowMessages';
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
-export const BASELINE_SORT = ['Rome', 'CLX', 'ICX'];
+export const BASELINE_SORT = ['Rome', 'CLX8280', 'ICX'];
 
 export class ChartPlotView extends React.Component {
   constructor(props) {
@@ -259,10 +259,6 @@ export class ChartPlotView extends React.Component {
                  break;
             }
           });    
-          console.log("xarray");
-          console.log(xarray);
-          console.log("yarray1");
-          console.log(yarray1);
 
           var trace1 = {
             x: xarray,
@@ -344,17 +340,13 @@ export class ChartPlotView extends React.Component {
               layout={layout}
               /> 
         );   
-        console.log("plots");
-        console.log(plots);
       }
-
-
-        return(
-          <div style={{ height: containerHeight }}>
-          {plots}
-        </div>
-        );
-      }
+      return(
+        <div style={{ height: containerHeight }}>
+        {plots}
+      </div>
+      );
+    }
 }
 
 export const mapStateToProps = (state, ownProps) => {

@@ -32,6 +32,29 @@ export class MilestonesPlotView extends React.Component {
         checkPlatform: PropTypes.bool,
       };
 
+  generatePlots = (value, plots, xarray, yarray, key) => {
+    value.forEach((item) => {
+      const itemTmp = item.split("_");
+      yarray.push(itemTmp[2]);
+      xarray.push(moment(parseInt(itemTmp[1])).format("YYYY-MM-DD HH:mm:ss"));
+      plots.push(
+            <Plot
+                data={[
+                  {
+                    x: xarray,
+                    y: yarray,
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    marker: {color: 'red'},
+                  },
+                  {type: 'line'},
+                ]}
+                layout={{width: 320, height: 240, title: key}}
+              />
+      );
+    });
+  }
+
   render(){
         const height = this.state.height || window.innerHeight;
         const headerHeight = process.env.HIDE_HEADER === 'true' ? 0 : 60;
@@ -39,36 +62,20 @@ export class MilestonesPlotView extends React.Component {
         // 60 pixels for the height of the top bar.
         // 100 for the experiments header and some for bottom padding.
         const experimentListHeight = height - 50 - 100;
-        var experimentmessage='You selected ' + this.props.plot_name;
-        console.log(this.props.gen_data);
-        var xarry = '';
-        var yarry = '';
+        var xarray = '';
+        var yarray = '';
         let plots = [];
         this.props.gen_data.forEach((value , key ) => {
-                xarry = new Array();
-                yarry = new Array();
-                value.forEach((item) => {
-                  const itemTmp = item.split("_");
-                  yarry.push(itemTmp[2]);
-                  xarry.push(moment(parseInt(itemTmp[1])).format("YYYY-MM-DD HH:mm:ss"));
-                  console.log(xarry);
-                  console.log(yarry);
-                  plots.push(
-                        <Plot
-                            data={[
-                              {
-                                x: xarry,
-                                y: yarry,
-                                type: 'scatter',
-                                mode: 'lines+markers',
-                                marker: {color: 'red'},
-                              },
-                              {type: 'line'},
-                            ]}
-                            layout={{width: 320, height: 240, title: key}}
-                          />
-                  );
-                });
+                xarray = new Array();
+                yarray = new Array();
+                if(this.props.TagKeyFilterString === "Total"){
+                   this.generatePlots(value, plots, xarray, yarray, key);
+                } else {
+                  var tmp = key.split("_");
+                  if(this.props.TagKeyFilterString === tmp[1]){
+                    this.generatePlots(value, plots, xarray, yarray, key);
+                  } 
+                }
             });
         return (
           <div style={{ height: containerHeight }}>
@@ -107,9 +114,13 @@ export const mapStateToProps = (state, ownProps) => {
       var platform ="";
       var isdabosrd="";
       tags.forEach((tag) => {
-
         if(tag.key === "mlflow.runName"){
-          run_name = tag.value;
+          var tmp = tag.value.split("_");
+          if(tmp.length > 1) {
+            run_name = tmp[0];
+          } else {
+            run_name = tag.value;
+          }
         }else if(tag.key === "platform") {
           platform = tag.value;
         }
