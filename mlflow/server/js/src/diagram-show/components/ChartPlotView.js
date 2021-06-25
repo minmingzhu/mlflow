@@ -64,11 +64,11 @@ export class ChartPlotView extends React.Component {
          
           var total_gen_data = new Map();
           sortTotalKeys.forEach((item) => {
-              var item = key.split("_");
+              var item = item.split("_");
               if(total_gen_data.has(item[1]) === false){
-                total_gen_data.set(item[1], new Map().set(key, gen_data.get(key)));
+                total_gen_data.set(item[1], new Map().set(item, gen_data.get(item)));
               }else{
-                total_gen_data.get(item[1]).set(key, gen_data.get(key));
+                total_gen_data.get(item[1]).set(item, gen_data.get(item));
               }
           });
         
