@@ -56,26 +56,6 @@ class App extends Component {
                   to={Routes.rootRoute}
                   activeStyle={classNames.activeNavLink}
                   isActive={(match, location) => match && !location.pathname.includes('models')}
-                  className='header-nav-link'
-                >
-                  <div className='experiments'>
-                    <span>Experiments</span>
-                  </div>
-                </NavLink>
-                <NavLink
-                  strict
-                  to={modelListPageRoute}
-                  activeStyle={classNames.activeNavLink}
-                  className='header-nav-link header-nav-link-models'
-                >
-                  <div className='models'>
-                    <span>Models</span>
-                  </div>
-                </NavLink>
-                <NavLink
-                  strict
-                  to={dashboardPageRoute}
-                  activeStyle={classNames.activeNavLink}
                   className='header-nav-link header-nav-link-dashboard'
                 >
                   <div className='dashboard'>
@@ -102,6 +82,16 @@ class App extends Component {
                     <span>Milestones</span>
                   </div>
                 </NavLink>
+                <NavLink
+                  strict
+                  to={Routes.experimentsPageRoute}
+                  activeStyle={classNames.activeNavLink}
+                  className='header-nav-link header-nav-link-experiments'
+                >
+                  <div className='experiments'>
+                    <span>Experiments</span>
+                  </div>
+                </NavLink>
               </div>
               <div className='header-links'>
                 <a href={'https://github.com/mlflow/mlflow'}>
@@ -119,7 +109,10 @@ class App extends Component {
           )}
           <AppErrorBoundary>
             <Switch>
-              <Route exact path={Routes.rootRoute} component={HomePage} />
+              <Route exact path={Routes.rootRoute} component={DashboardPage} />
+              <Route exact path={chartPageRoute} component={ChartPage} />
+              <Route exact path={milestonesPageRoute} component={MilestonesPage} />
+              <Route exact path={Routes.experimentsPageRoute} component={HomePage} />
               <Route exact path={Routes.experimentPageRoute} component={HomePage} />
               <Route exact path={Routes.runPageWithArtifactSelectedRoute} component={RunPage} />
               <Route exact path={Routes.runPageRoute} component={RunPage} />
@@ -138,9 +131,6 @@ class App extends Component {
                 path={compareModelVersionsPageRoute}
                 component={CompareModelVersionsPage}
               />
-              <Route exact path={dashboardPageRoute} component={DashboardPage} />
-              <Route exact path={chartPageRoute} component={ChartPage} />
-              <Route exact path={milestonesPageRoute} component={MilestonesPage} />
               <Route component={PageNotFoundView} />
             </Switch>
           </AppErrorBoundary>

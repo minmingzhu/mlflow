@@ -11,8 +11,9 @@ import console from "react-console";
 
 
 export class ChartPageImpl extends React.Component {
-
   constructor(props) {
+    console.log("ChartPageImpl props")
+    console.log(props)
     super(props);
     this.state = {
         ExperimentKeyFilterString: '' ,

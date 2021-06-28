@@ -4,17 +4,26 @@ import Utils from '../../common/utils/Utils';
 import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { Experiment } from '../../experiment-tracking/sdk/MlflowMessages';
-import { getExperiments } from '../../experiment-tracking/reducers/Reducers';
 import { getExperimentApi, getRunApi, searchRunsApi } from '../../experiment-tracking/actions';
 import console from "react-console";
 import ChartPlotView from './ChartPlotView';
+import ChartDefaultView from './ChartDefaultView'
 import { getUUID } from '../../common/utils/ActionUtils';
 import RequestStateWrapper from '../../common/components/RequestStateWrapper';
 import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
+import { getRunInfo, getExperiments,getRunTags } from '../../experiment-tracking/reducers/Reducers';
+import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
 
+
+export const getFirstActiveExperiment = (experiments) => {
+  const sorted = experiments.concat().sort(Utils.compareExperiments);
+  return sorted.find((e) => e.lifecycle_stage === 'active');
+};
 
 export class ChartView extends React.Component {
   constructor(props) {
+    console.log("ChartView props")
+    console.log(props)
     super(props);
     this.onSearch = this.onSearch.bind(this);
     this.state = {
@@ -121,12 +130,17 @@ export class ChartView extends React.Component {
                 </div>
            </div>
            <div className='chart-view-container' style={{ height: experimentListHeight }}>
-                     <ChartPlotView 
-                     ExperimentKeyFilterString={this.props.ExperimentKeyFilterString}
-                     TagKeyFilterString={this.props.TagKeyFilterString}
-                     experiments={this.props.experiments}
-                     runUuids={this.props.runUuids}
-                    />
+                  {this.props.isload !== undefined ? (
+                    <ChartDefaultView ExperimentKeyFilterString={this.props.ExperimentKeyFilterString}/>
+                    ) : (
+                      <ChartPlotView 
+                      ExperimentKeyFilterString={this.props.ExperimentKeyFilterString}
+                      TagKeyFilterString={this.props.TagKeyFilterString}
+                      experiments={this.props.experiments}
+                      runUuids={this.props.runUuids}
+                     />
+                    )}
+                    
            </div>
         </RequestStateWrapper>
        </div>
@@ -170,20 +184,19 @@ export class ChartView extends React.Component {
   
   const mapStateToProps = (state, ownProps) => {
     const experiments = getExperiments(state);
-    console.log(state);
-    console.log("ownProps view");
-    console.log(ownProps)
     const { runInfosByUuid } = state.entities;
     const runUuids = Object.values(runInfosByUuid)
     .filter((r) => r.experiment_id)
     .map((r) => r.run_uuid);
 
     experiments.sort(Utils.compareExperiments);
-    console.log("Bashboard view");
-    console.log({experiments})
-    console.log({runInfosByUuid})
-    console.log({runUuids})
 
+    if (ownProps.ExperimentKeyFilterString === undefined || ownProps.ExperimentKeyFilterString === "") {
+      const firstExp = getFirstActiveExperiment(getExperiments(state));
+      if (firstExp) {
+        return {experiments, isload: "true", ExperimentKeyFilterString: firstExp.experiment_id, TagKeyFilterString: "Total"};
+      };
+    }
     return {experiments, runUuids};
   };
   

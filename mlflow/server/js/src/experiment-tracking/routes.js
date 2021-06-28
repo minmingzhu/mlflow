@@ -7,6 +7,8 @@ class Routes {
     return `/experiments/${experimentId}`;
   }
 
+  static experimentsPageRoute = '/experiments';
+
   static experimentPageRoute = '/experiments/:experimentId';
 
   static experimentPageSearchRoute = '/experiments/:experimentId/:searchString';

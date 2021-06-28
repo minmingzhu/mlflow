@@ -10,6 +10,8 @@ import moment from 'moment';
 
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
+export const VANILLA_SORT = ['Vanilla_Rome', 'Openblas_Rome', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX', 'MKL_ICX', 'OAP_ICX'];
+
 
 export class MilestonesPlotView extends React.Component {
   constructor(props) {
@@ -65,6 +67,7 @@ export class MilestonesPlotView extends React.Component {
         var xarray = '';
         var yarray = '';
         let plots = [];
+        
         this.props.gen_data.forEach((value , key ) => {
                 xarray = new Array();
                 yarray = new Array();
