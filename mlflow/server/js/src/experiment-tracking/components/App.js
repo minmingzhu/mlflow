@@ -93,18 +93,6 @@ class App extends Component {
                   </div>
                 </NavLink>
               </div>
-              <div className='header-links'>
-                <a href={'https://github.com/mlflow/mlflow'}>
-                  <div className='github'>
-                    <span>GitHub</span>
-                  </div>
-                </a>
-                <a href={'https://mlflow.org/docs/latest/index.html'}>
-                  <div className='docs'>
-                    <span>Docs</span>
-                  </div>
-                </a>
-              </div>
             </header>
           )}
           <AppErrorBoundary>

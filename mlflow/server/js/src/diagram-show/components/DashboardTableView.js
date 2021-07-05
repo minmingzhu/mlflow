@@ -10,12 +10,17 @@ import { getUUID } from '../../common/utils/ActionUtils';
 import PropTypes from 'prop-types';
 import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 import Utils from '../../common/utils/Utils';
+import { Link } from 'react-router-dom';
+import Routes from '../../experiment-tracking/routes';
+
 
 export const COMPARE = {VANILLA_MKL_ICX:"VANILLA_MKL_ICX",
                         VANILLA_OAP_ICX:"VANILLA_OAP_ICX",
                         VANILLA_MKL_CLX:"VANILLA_MKL_CLX",
                         VANILLA_OAP_CLX:"VANILLA_OAP_CLX",
+                        VANILLA_Rome_VANILLA_CLX:"VANILLA_Rome_VANILLA_CLX",
                         VANILLA_Rome_OAP_CLX:"VANILLA_Rome_OAP_CLX",
+                        VANILLA_Rome_VANILLA_ICX:"VANILLA_Rome_VANILLA_ICX",
                         VANILLA_Rome_OAP_ICX:"VANILLA_Rome_OAP_ICX"};
 
 export class DashboardTableView extends React.Component {
@@ -58,6 +63,25 @@ export class DashboardTableView extends React.Component {
         });
     };
 
+    updateUrlWithSearchFilter({
+      experimentId,
+      runUuid,
+    }) {
+      const state = {};
+      if (experimentId) {
+        state['experimentid'] = experimentId;
+      }
+      if (runUuid) {
+        state['platform'] = runUuid;
+      }
+      const newUrl = `/chart/s?${Utils.getSearchUrlFromState(
+        state,
+      )}`;
+      if (newUrl !== this.props.history.location.pathname + this.props.history.location.search) {
+        this.props.history.push(newUrl);
+      }
+    }
+
   render(){
     const {gendataMap} = this.props;
     const data = []
@@ -77,58 +101,262 @@ export class DashboardTableView extends React.Component {
 
       const columns = [{
         Header: 'Workload',
-        accessor: 'workload'
-      }, {
-        Header: 'ICX Vanilla',
-        accessor: 'Vanilla_ICX',
+        accessor: 'workload',
+        width: 300,
       },{
-        Header: 'ICX MKL',
-        accessor: 'MKL_ICX',
-      }, {
-        Header: 'ICX OAP',
-        accessor: 'OAP_ICX',
-
-      },  {
-        Header: 'CLX Vanilla',
-        accessor: 'Vanilla_CLX8280',
+        Header: 'ICX',
+        columns: [
+          {
+            Header: 'Vanilla',
+            accessor: 'Vanilla_ICX',
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo && rowInfo.row.Vanilla_ICX > 0 ? 'green' : null,
+                  },
+              };
+            },
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+            },
+          },{
+            Header: 'MKL',
+            accessor: 'MKL_ICX',
+            getProps: (state, rowInfo, column) => {
+              return {
+                style: {
+                      background: rowInfo && rowInfo.row.MKL_ICX > 0 ? 'green' : null,
+                  },
+              };
+            },
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+            },
+          }, {
+            Header: 'OAP',
+            accessor: 'OAP_ICX',
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo && rowInfo.row.OAP_ICX > 0 ? 'green' : null,
+                  },
+              };
+            },
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+            },
+          }
+        ]
       },{
-        Header: 'CLX MKL',
-        accessor: 'MKL_CLX8280',
-      }, {
-        Header: 'CLX OAP',
-        accessor: 'OAP_CLX8280',
+        Header: 'CLX',
+        columns: [
+          {
+            Header: 'Vanilla',
+            accessor: 'Vanilla_CLX8280',
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo && rowInfo.row.Vanilla_CLX8280 > 0 ? 'blue' : null,
+                  },
+              };
+            },
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+            },
+          },{
+            Header: 'MKL',
+            accessor: 'MKL_CLX8280',
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo && rowInfo.row.MKL_CLX8280 > 0 ? 'blue' : null,
+                  },
+              };
+            },
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+            },
+          }, {
+            Header: 'OAP',
+            accessor: 'OAP_CLX8280',
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo && rowInfo.row.OAP_CLX8280 > 0 ? 'blue' : null,
+                  },
+              };
+            },
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+            },
+          }
+        ]
+      },{
+        Header: 'Rome',
+        columns: [
+          {
+            Header: 'Vanilla',
+            accessor: 'Vanilla_Rome',
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo && rowInfo.row.Vanilla_Rome > 0 ? 'orange' : null,
+                  },
+              };
+            },
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+            },
+          }, {
+            Header: 'Openblas',
+            accessor: 'Openblas_Rome',
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo && rowInfo.row.Openblas_Rome > 0 ? 'orange' : null,
+                  },
+              };
+          },
+          Cell: props =>{
+            const value = new String(props.value).split("_")
+            return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+            {value[0]}
+            </Link>
+          },
+    
+          }
+        ]
 
       },{
-        Header: 'Rome Vanilla',
-        accessor: 'Vanilla_Rome',
-      }, {
-        Header: 'Rome Openblas',
-        accessor: 'Openblas_Rome',
-
+        Header: 'ICX',
+        columns: [
+          {
+            Header: 'VANILLA VS MKL',
+            accessor: COMPARE.VANILLA_MKL_ICX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ? rowInfo.row.VANILLA_MKL_ICX >= 1 ? 'blue-green' : 'red' : null,
+                  },
+              };
+          },
+    
+          },{
+            Header: 'VANILLA VS OAP',
+            accessor:  COMPARE.VANILLA_OAP_ICX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ? rowInfo.row.VANILLA_OAP_ICX >= 1 ? 'blue-green' : 'red' : null,
+                  },
+              };
+          },
+          }
+        ]
       },{
-        Header: 'VANILLA_MKL_ICX',
-        accessor: COMPARE.VANILLA_MKL_ICX,
-
+        Header: 'CLX',
+        columns: [
+          {
+            Header: 'VANILLA VS MKL',
+            accessor:  COMPARE.VANILLA_MKL_CLX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ?  rowInfo.row.VANILLA_MKL_CLX >= 1 ? 'blue-green' : 'red' : null ,
+                  },
+              };
+          },
+          },{
+            Header: 'VANILLA VS OAP',
+            accessor:  COMPARE.VANILLA_OAP_CLX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ?  rowInfo.row.VANILLA_OAP_CLX >= 1 ? 'blue-green' : 'red' : null,
+                  },
+              };
+          },
+          }
+        ]
       },{
-        Header: 'VANILLA_OAP_ICX',
-        accessor:  COMPARE.VANILLA_OAP_ICX,
-
+        Header: 'ICX VS Rome',
+        columns: [
+          {
+            Header: 'VANILLA VS VANILLA',
+            accessor:  COMPARE.VANILLA_Rome_VANILLA_ICX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_ICX >= 1 ? 'blue-green' : 'red' : null,
+                  },
+              };
+          },
+          },{
+            Header: 'OAP VS VANILLA',
+            accessor:  COMPARE.VANILLA_Rome_OAP_ICX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_ICX >= 1 ? 'blue-green' : 'red' : null,
+                  },
+              };
+          },
+          },    
+        ]
       },{
-        Header: 'VANILLA_MKL_CLX',
-        accessor:  COMPARE.VANILLA_MKL_CLX,
-
-      },{
-        Header: 'VANILLA_MKL_CLX',
-        accessor:  COMPARE.VANILLA_OAP_CLX,
-
-      },{
-        Header: 'VANILLA_Rome_OAP_CLX',
-        accessor:  COMPARE.VANILLA_Rome_OAP_CLX,
-
-      },{
-        Header: 'VANILLA_Rome_OAP_ICX',
-        accessor:  COMPARE.VANILLA_Rome_OAP_ICX,
-
+        Header: 'CLX VS Rome',
+        columns: [
+          {
+            Header: 'VANILLA VS VANILLA',
+            accessor:  COMPARE.VANILLA_Rome_VANILLA_CLX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_CLX >= 1 ? 'blue-green' : 'red' : null,
+                  },
+              };
+          },
+          },{
+            Header: 'OAP VS VANILLA',
+            accessor:  COMPARE.VANILLA_Rome_OAP_CLX,
+            width: 150,
+            getProps: (state, rowInfo, column) => {
+              return {
+                  style: {
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_CLX >= 1 ? 'blue-green' : 'red' : null,
+                  },
+              };
+          },
+          }
+        ]
       }
     ]
     
@@ -250,7 +478,7 @@ export class DashboardTableView extends React.Component {
     experiment_runuuidSet.forEach((item) => {
          const tmp = item.split("_");
          if(tmp[1] === e.experiment_id){
-          runnuuid_workflownameSet.add(tmp[0] +'@'+e.name);
+          runnuuid_workflownameSet.add(tmp[0] +'@'+e.name +'@'+ e.experiment_id);
          }
     });
   });
@@ -274,11 +502,11 @@ export class DashboardTableView extends React.Component {
           if(tmp[1]!==undefined || tmp[1]!==" " || tmp[1]!== null ){
             if(gendataMap.has(tmp[1]) === false){
               const temp = runuuidMap.get(tmp[0]).split("_");
-              tmpMap.set(temp[0] + '_'+ temp[1],totalvalue);
+              tmpMap.set(temp[0] + '_'+ temp[1],totalvalue + "_" + tmp[0] + "_" + tmp[2]);
               gendataMap.set(tmp[1],tmpMap);
             }else{
               const temp = runuuidMap.get(tmp[0]).split("_");
-              gendataMap.get(tmp[1]).set(temp[0] + '_'+ temp[1], totalvalue);
+              gendataMap.get(tmp[1]).set(temp[0] + '_'+ temp[1], totalvalue + "_" + tmp[0] + "_" + tmp[2]);
             }
           }
         }
@@ -317,10 +545,18 @@ export class DashboardTableView extends React.Component {
     if(CLXmap.get("Vanilla") !== null  || CLXmap.get("Vanilla") !==undefined  || CLXmap.get("Vanilla") !==" "  
     && CLXmap.get("OAP")!==null ||CLXmap.get("OAP")!==undefined ||CLXmap.get("OAP")!==" "){
       item.set(COMPARE.VANILLA_OAP_CLX,   parseFloat(parseInt(CLXmap.get("Vanilla"))/parseInt(CLXmap.get("OAP"))).toFixed(3));
+    }
+    if(ICXmap.get("Vanilla") !== null  || ICXmap.get("Vanilla") !==undefined  || ICXmap.get("Vanilla") !==" "  
+    && Romemap.get("Vanilla")!==null ||Romemap.get("Vanilla")!==undefined ||Romemap.get("Vanilla")!==" "){
+      item.set(COMPARE.VANILLA_Rome_VANILLA_ICX,  parseFloat(parseInt(Romemap.get("Vanilla"))/parseInt(ICXmap.get("Vanilla"))).toFixed(3));
     }   
     if(ICXmap.get("OAP") !== null  || ICXmap.get("OAP") !==undefined  || ICXmap.get("OAP") !==" "  
     && Romemap.get("Vanilla")!==null ||Romemap.get("Vanilla")!==undefined ||Romemap.get("Vanilla")!==" "){
       item.set(COMPARE.VANILLA_Rome_OAP_ICX,  parseFloat(parseInt(Romemap.get("Vanilla"))/parseInt(ICXmap.get("OAP"))).toFixed(3));
+    }
+    if(CLXmap.get("Vanilla") !== null  || CLXmap.get("Vanilla") !==undefined  || CLXmap.get("Vanilla") !==" "  
+    && Romemap.get("Vanilla")!==null ||Romemap.get("Vanilla")!==undefined ||Romemap.get("Vanilla")!==" "){
+      item.set(COMPARE.VANILLA_Rome_VANILLA_CLX,  parseFloat(parseInt(Romemap.get("Vanilla"))/parseInt(CLXmap.get("Vanilla"))).toFixed(3));
     }
     if(CLXmap.get("OAP") !== null  || CLXmap.get("OAP") !==undefined  || CLXmap.get("OAP") !==" "  
     && Romemap.get("Vanilla")!==null ||Romemap.get("Vanilla")!==undefined ||Romemap.get("Vanilla")!==" "){
