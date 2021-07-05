@@ -90,7 +90,7 @@ export class ChartPlotView extends React.Component {
               console.log(sortKeys);
               for(let i=0; i< sortKeys.length; i++){
                 for(let j=i+1; j< sortKeys.length; j++){
-                  const tmpString = sortKeys[j] + "VS" + sortKeys[i];
+                  const tmpString = sortKeys[j] + " VS " + sortKeys[i];
                   if(dataMap.has(tmpString) === false){
                     const tmpMaps_i = total_gen_data.get(sortKeys[i]);
                     const tmpMaps_j = total_gen_data.get(sortKeys[j]);
