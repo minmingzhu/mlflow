@@ -109,50 +109,36 @@ export class DashboardTableView extends React.Component {
           {
             Header: 'Vanilla',
             accessor: 'Vanilla_ICX',
-            getProps: (state, rowInfo, column) => {
-              return {
-                  style: {
-                      background: rowInfo && rowInfo.row.Vanilla_ICX > 0 ? 'green' : null,
-                  },
-              };
-            },
             Cell: props =>{
               const value = new String(props.value).split("_")
-              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              return <div style={{ background: value[0] > 0 ? 'greenyellow' : null}}>
+              <Link to = {Routes.getRunPageRoute(value[2], value[1]) }>
               {value[0]}
               </Link>
+              </div>
             },
           },{
             Header: 'MKL',
             accessor: 'MKL_ICX',
-            getProps: (state, rowInfo, column) => {
-              return {
-                style: {
-                      background: rowInfo && rowInfo.row.MKL_ICX > 0 ? 'green' : null,
-                  },
-              };
-            },
             Cell: props =>{
               const value = new String(props.value).split("_")
-              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              return <div style={{ background: value[0] > 0 ? 'greenyellow' : null}}>
+                <Link to= {Routes.getRunPageRoute(value[2], value[1])}
+              >
               {value[0]}
               </Link>
+              </div>
             },
           }, {
             Header: 'OAP',
             accessor: 'OAP_ICX',
-            getProps: (state, rowInfo, column) => {
-              return {
-                  style: {
-                      background: rowInfo && rowInfo.row.OAP_ICX > 0 ? 'green' : null,
-                  },
-              };
-            },
             Cell: props =>{
               const value = new String(props.value).split("_")
-              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              return <div style={{ background: value[0] > 0 ? 'greenyellow' : null}}> 
+              <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
               {value[0]}
               </Link>
+              </div>
             },
           }
         ]
@@ -162,50 +148,35 @@ export class DashboardTableView extends React.Component {
           {
             Header: 'Vanilla',
             accessor: 'Vanilla_CLX8280',
-            getProps: (state, rowInfo, column) => {
-              return {
-                  style: {
-                      background: rowInfo && rowInfo.row.Vanilla_CLX8280 > 0 ? 'blue' : null,
-                  },
-              };
-            },
             Cell: props =>{
               const value = new String(props.value).split("_")
-              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              return <div style={{ background: value[0] > 0 ? 'blanchedalmond' : null}}> 
+              <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
               {value[0]}
               </Link>
+              </div>
             },
           },{
             Header: 'MKL',
             accessor: 'MKL_CLX8280',
-            getProps: (state, rowInfo, column) => {
-              return {
-                  style: {
-                      background: rowInfo && rowInfo.row.MKL_CLX8280 > 0 ? 'blue' : null,
-                  },
-              };
-            },
             Cell: props =>{
               const value = new String(props.value).split("_")
-              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              return <div style={{ background: value[0] > 0 ? 'blanchedalmond' : null}}>  
+              <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
               {value[0]}
               </Link>
+              </div>
             },
           }, {
             Header: 'OAP',
             accessor: 'OAP_CLX8280',
-            getProps: (state, rowInfo, column) => {
-              return {
-                  style: {
-                      background: rowInfo && rowInfo.row.OAP_CLX8280 > 0 ? 'blue' : null,
-                  },
-              };
-            },
             Cell: props =>{
               const value = new String(props.value).split("_")
-              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              return <div style={{ background: value[0] > 0 ? 'blanchedalmond' : null}}>  
+              <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
               {value[0]}
               </Link>
+              </div>
             },
           }
         ]
@@ -215,34 +186,24 @@ export class DashboardTableView extends React.Component {
           {
             Header: 'Vanilla',
             accessor: 'Vanilla_Rome',
-            getProps: (state, rowInfo, column) => {
-              return {
-                  style: {
-                      background: rowInfo && rowInfo.row.Vanilla_Rome > 0 ? 'orange' : null,
-                  },
-              };
-            },
             Cell: props =>{
               const value = new String(props.value).split("_")
-              return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              return <div style={{ background: value[0] > 0 ? 'orange' : null}}>   
+              <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
               {value[0]}
               </Link>
+              </div>
             },
           }, {
             Header: 'Openblas',
             accessor: 'Openblas_Rome',
-            getProps: (state, rowInfo, column) => {
-              return {
-                  style: {
-                      background: rowInfo && rowInfo.row.Openblas_Rome > 0 ? 'orange' : null,
-                  },
-              };
-          },
-          Cell: props =>{
-            const value = new String(props.value).split("_")
-            return <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
-            {value[0]}
-            </Link>
+            Cell: props =>{
+              const value = new String(props.value).split("_")
+              return <div style={{ background: value[0] > 0 ? 'orange' : null}}>    
+              <Link to= {Routes.getRunPageRoute(value[2], value[1])}>
+              {value[0]}
+              </Link>
+              </div>
           },
     
           }
@@ -258,7 +219,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ? rowInfo.row.VANILLA_MKL_ICX >= 1 ? 'blue-green' : 'red' : null,
+                      background: rowInfo ? rowInfo.row.VANILLA_MKL_ICX >= 1 ? 'lightgreen' : 'red' : null,
                   },
               };
           },
@@ -270,7 +231,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ? rowInfo.row.VANILLA_OAP_ICX >= 1 ? 'blue-green' : 'red' : null,
+                      background: rowInfo ? rowInfo.row.VANILLA_OAP_ICX >= 1 ? 'lightgreen' : 'red' : null,
                   },
               };
           },
@@ -286,7 +247,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_MKL_CLX >= 1 ? 'blue-green' : 'red' : null ,
+                      background: rowInfo ?  rowInfo.row.VANILLA_MKL_CLX >= 1 ? 'lightgreen' : 'red' : null ,
                   },
               };
           },
@@ -297,7 +258,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_OAP_CLX >= 1 ? 'blue-green' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_OAP_CLX >= 1 ? 'lightgreen' : 'red' : null,
                   },
               };
           },
@@ -313,7 +274,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_ICX >= 1 ? 'blue-green' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_ICX >= 1 ? 'lightgreen' : 'red' : null,
                   },
               };
           },
@@ -324,7 +285,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_ICX >= 1 ? 'blue-green' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_ICX >= 1 ? 'lightgreen' : 'red' : null,
                   },
               };
           },
@@ -340,7 +301,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_CLX >= 1 ? 'blue-green' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_CLX >= 1 ? 'lightgreen' : 'red' : null,
                   },
               };
           },
@@ -351,7 +312,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_CLX >= 1 ? 'blue-green' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_CLX >= 1 ? 'lightgreen' : 'red' : null,
                   },
               };
           },

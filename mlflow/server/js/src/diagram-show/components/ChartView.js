@@ -161,12 +161,12 @@ export class ChartView extends React.Component {
       } = this.state;
       console.log("onSearch")
       console.log(this.props) 
-      console.log(this.state.ExperimentKeyFilterString)
-      console.log(this.state.TagKeyFilterString)
+      console.log(this.props.ExperimentKeyFilterString)
+      console.log(this.props.TagKeyFilterString)
       const myExperimentKeyFilterString =
-      ExperimentKeyFilterString !== undefined ? ExperimentKeyFilterString : this.state.ExperimentKeyFilterString;
+      ExperimentKeyFilterString !== undefined ? ExperimentKeyFilterString : this.props.ExperimentKeyFilterString;
       const myTagKeyFilterString =
-      TagKeyFilterString !== undefined ? TagKeyFilterString : this.state.TagKeyFilterString;
+      TagKeyFilterString !== undefined ? TagKeyFilterString : this.props.TagKeyFilterString;
       this.handleGettingRuns(this.props.searchRunsApi, this.searchRunsRequestId, this.state);
       this.props.onSearch(
         myExperimentKeyFilterString,
