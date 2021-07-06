@@ -12,6 +12,10 @@ import RequestStateWrapper from '../../common/components/RequestStateWrapper';
 import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 import MilestonesPlotView from './MilestonesPlotView';
 
+export const getFirstActiveExperiment = (experiments) => {
+  const sorted = experiments.concat().sort(Utils.compareExperiments);
+  return sorted.find((e) => e.lifecycle_stage === 'active');
+};
 
 export class MilestonesView extends React.Component {
   constructor(props) {
@@ -106,7 +110,6 @@ export class MilestonesView extends React.Component {
                 <label>
                     Platfrom:
                     <select defaultValue={this.props.TagKeyFilterString} name="TagKeyFilterString" class="ui dropdown" value={this.state.TagKeyFilterString} onChange={this.handleChange}>
-                      <option value="Default">Default</option>
                       <option value="ICX" >ICX</option>
                       <option value="Rome">Rome</option>
                       <option value="CLX8280">CLX8280</option>
@@ -121,10 +124,10 @@ export class MilestonesView extends React.Component {
                 </div>
            </div>
            <div className='milestones-view-container' style={{ height: experimentListHeight }}>
-                     <MilestonesPlotView 
-                     ExperimentKeyFilterString={this.props.ExperimentKeyFilterString}
-                     TagKeyFilterString={this.props.TagKeyFilterString}
-                    />
+                  <MilestonesPlotView 
+                  ExperimentKeyFilterString={this.props.ExperimentKeyFilterString}
+                  TagKeyFilterString={this.props.TagKeyFilterString}
+                  />                     
            </div>
         </RequestStateWrapper>
        </div>
@@ -145,12 +148,12 @@ export class MilestonesView extends React.Component {
       } = this.state;
       console.log("onSearch")
       console.log(this.props) 
-      console.log(this.state.ExperimentKeyFilterString)
-      console.log(this.state.TagKeyFilterString)
+      console.log(this.props.ExperimentKeyFilterString)
+      console.log(this.props.TagKeyFilterString)
       const myExperimentKeyFilterString =
-      ExperimentKeyFilterString !== undefined ? ExperimentKeyFilterString : this.state.ExperimentKeyFilterString;
+      ExperimentKeyFilterString !== undefined ? ExperimentKeyFilterString : this.props.ExperimentKeyFilterString;
       const myTagKeyFilterString =
-      TagKeyFilterString !== undefined ? TagKeyFilterString : this.state.TagKeyFilterString;
+      TagKeyFilterString !== undefined ? TagKeyFilterString : this.props.TagKeyFilterString;
       this.handleGettingRuns(this.props.searchRunsApi, this.searchRunsRequestId, this.state);
       this.props.onSearch(
         myExperimentKeyFilterString,
@@ -181,6 +184,13 @@ export class MilestonesView extends React.Component {
     console.log({experiments})
     console.log({runInfosByUuid})
     console.log({runUuids})
+
+    if (ownProps.ExperimentKeyFilterString === undefined || ownProps.ExperimentKeyFilterString === "") {
+      const firstExp = getFirstActiveExperiment(getExperiments(state));
+      if (firstExp) {
+        return {experiments,ExperimentKeyFilterString: firstExp.experiment_id, TagKeyFilterString: "Total"};
+      };
+    }
 
     return {experiments, runUuids};
   };

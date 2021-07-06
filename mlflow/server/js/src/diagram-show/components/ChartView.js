@@ -115,7 +115,6 @@ export class ChartView extends React.Component {
                 <label>
                     Platfrom:
                     <select defaultValue={this.props.TagKeyFilterString} name="TagKeyFilterString" class="ui dropdown" value={this.state.TagKeyFilterString} onChange={this.handleChange}>
-                      <option value="Default">Default</option>
                       <option value="ICX">ICX</option>
                       <option value="Rome">Rome</option>
                       <option value="CLX8280">CLX8280</option>
