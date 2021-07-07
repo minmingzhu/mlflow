@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import Utils from '../../common/utils/Utils';
 import PropTypes from 'prop-types';
 import console from "react-console";
-import ChartView from './ChartView';
-import { getUUID } from '../../common/utils/ActionUtils';
-import { getExperimentApi, getRunApi, searchRunsApi } from '../../experiment-tracking/actions';
-import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 import { getRunInfo, getExperiments,getRunTags } from '../../experiment-tracking/reducers/Reducers';
 import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
 import  Plot from 'react-plotly.js';
@@ -14,8 +10,8 @@ import { Experiment, RunInfo } from '../../experiment-tracking/sdk/MlflowMessage
 
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
-export const BASELINE_SORT = ['Rome', 'CLX8280', 'ICX'];
-export const VANILLA_SORT = ['Vanilla_Rome', 'Openblas_Rome', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX', 'MKL_ICX', 'OAP_ICX'];
+export const BASELINE_SORT = ['Rome7402', 'CLX8280', 'ICX8360Y'];
+export const VANILLA_SORT = ['Vanilla_Rome7402', 'OpenBLAS_Rome7402', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX8360Y', 'MKL_ICX8360Y', 'OAP_ICX8360Y'];
 
 
 
@@ -101,7 +97,7 @@ export class ChartDefaultView extends React.Component {
               console.log(sortKeys);
               for(let i=0; i< sortKeys.length; i++){
                 for(let j=i+1; j< sortKeys.length; j++){
-                  const tmpString = sortKeys[j] + "VS" + sortKeys[i];
+                  const tmpString = sortKeys[j] + " VS " + sortKeys[i];
                   if(dataMap.has(tmpString) === false){
                     const tmpMaps_i = total_gen_data.get(sortKeys[i]);
                     const tmpMaps_j = total_gen_data.get(sortKeys[j]);

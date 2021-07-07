@@ -21,7 +21,6 @@ import {
 } from '../../model-registry/routes';
 import {
   chartPageRoute,
-  dashboardPageRoute,
   milestonesPageRoute
 } from '../../diagram-show/routes';
 import { ModelVersionPage } from '../../model-registry/components/ModelVersionPage';
@@ -47,7 +46,7 @@ class App extends Component {
             <header className='App-header'>
               <div className='mlflow-logo'>
                 <Link to={Routes.rootRoute} className='App-mlflow'>
-                  <img className='mlflow-logo' alt='MLflow' src={logo} />
+                  <img className='mlflow-logo' alt='MLDashboard' src={logo} />
                 </Link>
               </div>
               <div className='header-route-links'>
@@ -55,7 +54,6 @@ class App extends Component {
                   strict
                   to={Routes.rootRoute}
                   activeStyle={classNames.activeNavLink}
-                  isActive={(match, location) => match && !location.pathname.includes('models')}
                   className='header-nav-link header-nav-link-dashboard'
                 >
                   <div className='dashboard'>

@@ -6,12 +6,11 @@ import { connect } from 'react-redux';
 import console from "react-console";
 import { getLatestMetrics } from '../../experiment-tracking/reducers/MetricReducer';
 import { Experiment, RunInfo } from '../../experiment-tracking/sdk/MlflowMessages';
-import Utils from '../../common/utils/Utils';
 
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
-export const BASELINE_SORT = ['Rome', 'CLX8280', 'ICX'];
-export const VANILLA_SORT = ['Vanilla_Rome', 'Openblas_Rome', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX', 'MKL_ICX', 'OAP_ICX'];
+export const BASELINE_SORT = ['Rome7402', 'CLX8280', 'ICX8360Y'];
+export const VANILLA_SORT = ['Vanilla_Rome7402', 'OpenBLAS_Rome7402', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX8360Y', 'MKL_ICX8360Y', 'OAP_ICX8360Y'];
 
 export class ChartPlotView extends React.Component {
   constructor(props) {

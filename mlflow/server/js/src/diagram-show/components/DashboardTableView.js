@@ -103,12 +103,24 @@ export class DashboardTableView extends React.Component {
         Header: 'Workload',
         accessor: 'workload',
         width: 300,
+
       },{
         Header: 'ICX',
         columns: [
           {
             Header: 'Vanilla',
-            accessor: 'Vanilla_ICX',
+            accessor: 'Vanilla_ICX8360Y',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.Vanilla_ICX8360Y)
+                const value = new String(rowInfo.row.Vanilla_ICX8360Y).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.Vanilla_ICX8360Y).split("_")[0] >0 ? 'greenyellow' : null,
+                  },
+              };
+          },
             Cell: props =>{
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'greenyellow' : null}}>
@@ -119,8 +131,21 @@ export class DashboardTableView extends React.Component {
             },
           },{
             Header: 'MKL',
-            accessor: 'MKL_ICX',
+            accessor: 'MKL_ICX8360Y',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.MKL_ICX8360Y)
+                const value = new String(rowInfo.row.MKL_ICX8360Y).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.MKL_ICX8360Y).split("_")[0] >0 ? 'greenyellow' : null,
+                  },
+              };
+          },
             Cell: props =>{
+              console.log("props")
+              console.log(props)
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'greenyellow' : null}}>
                 <Link to= {Routes.getRunPageRoute(value[2], value[1])}
@@ -131,7 +156,18 @@ export class DashboardTableView extends React.Component {
             },
           }, {
             Header: 'OAP',
-            accessor: 'OAP_ICX',
+            accessor: 'OAP_ICX8360Y',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.OAP_ICX8360Y)
+                const value = new String(rowInfo.row.OAP_ICX8360Y).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.OAP_ICX8360Y).split("_")[0] >0 ? 'greenyellow' : null,
+                  },
+              };
+          },
             Cell: props =>{
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'greenyellow' : null}}> 
@@ -148,6 +184,17 @@ export class DashboardTableView extends React.Component {
           {
             Header: 'Vanilla',
             accessor: 'Vanilla_CLX8280',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.Vanilla_CLX8280)
+                const value = new String(rowInfo.row.Vanilla_CLX8280).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.Vanilla_CLX8280).split("_")[0] >0 ? 'blanchedalmond' : null,
+                  },
+              };
+          },
             Cell: props =>{
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'blanchedalmond' : null}}> 
@@ -159,6 +206,17 @@ export class DashboardTableView extends React.Component {
           },{
             Header: 'MKL',
             accessor: 'MKL_CLX8280',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.MKL_CLX8280)
+                const value = new String(rowInfo.row.MKL_CLX8280).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.MKL_CLX8280).split("_")[0] >0 ? 'blanchedalmond' : null,
+                  },
+              };
+          },
             Cell: props =>{
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'blanchedalmond' : null}}>  
@@ -170,6 +228,17 @@ export class DashboardTableView extends React.Component {
           }, {
             Header: 'OAP',
             accessor: 'OAP_CLX8280',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.OAP_CLX8280)
+                const value = new String(rowInfo.row.OAP_CLX8280).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.OAP_CLX8280).split("_")[0] >0 ? 'blanchedalmond' : null,
+                  },
+              };
+          },
             Cell: props =>{
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'blanchedalmond' : null}}>  
@@ -185,7 +254,18 @@ export class DashboardTableView extends React.Component {
         columns: [
           {
             Header: 'Vanilla',
-            accessor: 'Vanilla_Rome',
+            accessor: 'Vanilla_Rome7402',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.Vanilla_Rome7402)
+                const value = new String(rowInfo.row.Vanilla_Rome7402).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.Vanilla_Rome7402).split("_")[0] >0 ? 'orange' : null,
+                  },
+              };
+          },
             Cell: props =>{
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'orange' : null}}>   
@@ -196,7 +276,18 @@ export class DashboardTableView extends React.Component {
             },
           }, {
             Header: 'Openblas',
-            accessor: 'Openblas_Rome',
+            accessor: 'Openblas_Rome7402',
+            getProps: (state, rowInfo, column) => {
+              if(rowInfo !== undefined ){
+                console.log(rowInfo.row.Openblas_Rome7402)
+                const value = new String(rowInfo.row.Openblas_Rome7402).split("_")[0] >0
+              }
+              return {
+                  style: {
+                      background: rowInfo && new String(rowInfo.row.Openblas_Rome7402).split("_")[0] >0 ? 'orange' : null,
+                  },
+              };
+          },
             Cell: props =>{
               const value = new String(props.value).split("_")
               return <div style={{ background: value[0] > 0 ? 'orange' : null}}>    
@@ -219,7 +310,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ? rowInfo.row.VANILLA_MKL_ICX >= 1 ? 'lightgreen' : 'red' : null,
+                      background: rowInfo ? rowInfo.row.VANILLA_MKL_ICX >= 1 ? 'lightgreen' : '#ff00007a' : null,
                   },
               };
           },
@@ -231,7 +322,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ? rowInfo.row.VANILLA_OAP_ICX >= 1 ? 'lightgreen' : 'red' : null,
+                      background: rowInfo ? rowInfo.row.VANILLA_OAP_ICX >= 1 ? 'lightgreen' : '#ff00007a' : null,
                   },
               };
           },
@@ -247,7 +338,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_MKL_CLX >= 1 ? 'lightgreen' : 'red' : null ,
+                      background: rowInfo ?  rowInfo.row.VANILLA_MKL_CLX >= 1 ? 'lightgreen' : '#ff00007a' : null ,
                   },
               };
           },
@@ -258,7 +349,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_OAP_CLX >= 1 ? 'lightgreen' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_OAP_CLX >= 1 ? 'lightgreen' : '#ff00007a' : null,
                   },
               };
           },
@@ -274,7 +365,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_ICX >= 1 ? 'lightgreen' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_ICX >= 1 ? 'lightgreen' : '#ff00007a' : null,
                   },
               };
           },
@@ -285,7 +376,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_ICX >= 1 ? 'lightgreen' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_ICX >= 1 ? 'lightgreen' : '#ff00007a' : null,
                   },
               };
           },
@@ -301,7 +392,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_CLX >= 1 ? 'lightgreen' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_VANILLA_CLX >= 1 ? 'lightgreen' : '#ff00007a' : null,
                   },
               };
           },
@@ -312,7 +403,7 @@ export class DashboardTableView extends React.Component {
             getProps: (state, rowInfo, column) => {
               return {
                   style: {
-                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_CLX >= 1 ? 'lightgreen' : 'red' : null,
+                      background: rowInfo ?  rowInfo.row.VANILLA_Rome_OAP_CLX >= 1 ? 'lightgreen' : '#ff00007a' : null,
                   },
               };
           },
@@ -482,11 +573,11 @@ export class DashboardTableView extends React.Component {
     item.forEach((value, key) => {
       if(key!==undefined || key!==" " || key!== null ){
           const tmp = key.split("_");
-          if(tmp[1] === "ICX"){
+          if(tmp[1] === "ICX8360Y"){
             ICXmap.set(tmp[0],value);
           }else if(tmp[1] === "CLX8280"){
             CLXmap.set(tmp[0],value);
-          }else if(tmp[1] === "Rome"){
+          }else if(tmp[1] === "Rome7402"){
             Romemap.set(tmp[0],value);
           }
       }

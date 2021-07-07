@@ -10,7 +10,7 @@ import moment from 'moment';
 
 
 export const LIFECYCLE_FILTER = { ACTIVE: 'Active', DELETED: 'Deleted' };
-export const VANILLA_SORT = ['Vanilla_Rome', 'Openblas_Rome', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX', 'MKL_ICX', 'OAP_ICX'];
+export const VANILLA_SORT = ['Vanilla_Rome7402', 'OpenBLAS_Rome7402', 'Vanilla_CLX8280', 'MKL_CLX8280', 'OAP_CLX8280', 'Vanilla_ICX8360Y', 'MKL_ICX8360Y', 'OAP_ICX8360Y'];
 
 
 export class MilestonesPlotView extends React.Component {
