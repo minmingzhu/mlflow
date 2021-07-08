@@ -36,6 +36,17 @@ const classNames = {
   activeNavLink: { borderBottom: '4px solid #43C9ED' },
 };
 
+const isExperimentsActive = (match, location) => {
+  // eslint-disable-next-line prefer-const
+  console.log("location.pathname")
+  console.log(location.pathname)
+  let isActive = match && !location.pathname.includes('chart') 
+  && !location.pathname.includes('milestones') && !location.pathname.includes('experiments');
+  console.log(isActive)
+  return isActive;
+};
+
+
 class App extends Component {
   render() {
     return (
@@ -54,6 +65,7 @@ class App extends Component {
                   strict
                   to={Routes.rootRoute}
                   activeStyle={classNames.activeNavLink}
+                  isActive={isExperimentsActive}
                   className='header-nav-link header-nav-link-dashboard'
                 >
                   <div className='dashboard'>
