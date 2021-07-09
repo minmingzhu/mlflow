@@ -108,10 +108,10 @@ export class MilestonesView extends React.Component {
               </div>
               <div>
                 <label>
-                    Platfrom:
+                    Platform:
                     <select defaultValue={this.props.TagKeyFilterString} name="TagKeyFilterString" class="ui dropdown" value={this.state.TagKeyFilterString} onChange={this.handleChange}>
-                      <option value="ICX" >ICX</option>
-                      <option value="Rome">Rome</option>
+                      <option value="ICX8360Y" >ICX8360Y</option>
+                      <option value="Rome7402">Rome7402</option>
                       <option value="CLX8280">CLX8280</option>
                       <option value="Total">Total</option>
                     </select>
