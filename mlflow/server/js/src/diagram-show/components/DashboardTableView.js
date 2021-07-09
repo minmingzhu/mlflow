@@ -275,8 +275,8 @@ export class DashboardTableView extends React.Component {
               </div>
             },
           }, {
-            Header: 'Openblas',
-            accessor: 'Openblas_Rome7402',
+            Header: 'OpenBLAS',
+            accessor: 'OpenBLAS_Rome7402',
             getProps: (state, rowInfo, column) => {
               if(rowInfo !== undefined ){
                 console.log(rowInfo.row.Openblas_Rome7402)
