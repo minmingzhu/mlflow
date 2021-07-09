@@ -279,12 +279,12 @@ export class DashboardTableView extends React.Component {
             accessor: 'OpenBLAS_Rome7402',
             getProps: (state, rowInfo, column) => {
               if(rowInfo !== undefined ){
-                console.log(rowInfo.row.Openblas_Rome7402)
-                const value = new String(rowInfo.row.Openblas_Rome7402).split("_")[0] >0
+                console.log(rowInfo.row.OpenBLAS_Rome7402)
+                const value = new String(rowInfo.row.OpenBLAS_Rome7402).split("_")[0] >0
               }
               return {
                   style: {
-                      background: rowInfo && new String(rowInfo.row.Openblas_Rome7402).split("_")[0] >0 ? 'orange' : null,
+                      background: rowInfo && new String(rowInfo.row.OpenBLAS_Rome7402).split("_")[0] >0 ? 'orange' : null,
                   },
               };
           },
