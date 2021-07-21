@@ -5,11 +5,7 @@ import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { Experiment } from '../../experiment-tracking/sdk/MlflowMessages';
 import { getExperiments } from '../../experiment-tracking/reducers/Reducers';
-import { getExperimentApi, getRunApi, searchRunsApi } from '../../experiment-tracking/actions';
 import console from "react-console";
-import { getUUID } from '../../common/utils/ActionUtils';
-import RequestStateWrapper from '../../common/components/RequestStateWrapper';
-import { ViewType } from '../../experiment-tracking/sdk/MlflowEnums';
 import MilestonesPlotView from './MilestonesPlotView';
 
 export const getFirstActiveExperiment = (experiments) => {
@@ -35,44 +31,8 @@ export class MilestonesView extends React.Component {
     onSearch: PropTypes.func.isRequired,
     ExperimentKeyFilterString: PropTypes.string.isRequired,
     TagKeyFilterString: PropTypes.string.isRequired,
-    getExperimentApi: PropTypes.func.isRequired,
-    searchRunsApi: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    this.props.getExperimentApi(this.props.experimentId, this.getExperimentRequestId).catch((e) => {
-      console.error(e);
-    });
-
-  }
-
-  getExperimentRequestId = getUUID();
-  searchRunsRequestId = getUUID();
-
-
-   handleGettingRuns = (getRunsAction, requestId, state) => {
-     return getRunsAction({
-       filter: null,
-       runViewType: ViewType.ACTIVE_ONLY,
-       experimentIds:  [this.state.ExperimentKeyFilterString],
-       orderBy: null,
-       pageToken: null,
-       shouldFetchParents: true,
-       id: requestId,
-     })
-       .catch((e) => {
-         Utils.logErrorAndNotifyUser(e);
-       });
-   };
-
-  getRequestIds() {
-    return [this.getExperimentRequestId, this.searchRunsRequestId];
-  }
-  
     render() {
       console.log("props view");
       console.log(this.props)
@@ -85,7 +45,6 @@ export class MilestonesView extends React.Component {
       const { searchInput } = this.state;
       return (
         <div className='outer-container' style={{ height: containerHeight }}>
-          <RequestStateWrapper shouldOptimisticallyRender requestIds={this.getRequestIds()}>
           <div className='milestones-list-container' style={{ height: experimentListHeight }}>
             <div>
               <label>
@@ -129,7 +88,6 @@ export class MilestonesView extends React.Component {
                   TagKeyFilterString={this.props.TagKeyFilterString}
                   />                     
            </div>
-        </RequestStateWrapper>
        </div>
         );
     }
@@ -154,7 +112,6 @@ export class MilestonesView extends React.Component {
       ExperimentKeyFilterString !== undefined ? ExperimentKeyFilterString : this.props.ExperimentKeyFilterString;
       const myTagKeyFilterString =
       TagKeyFilterString !== undefined ? TagKeyFilterString : this.props.TagKeyFilterString;
-      this.handleGettingRuns(this.props.searchRunsApi, this.searchRunsRequestId, this.state);
       this.props.onSearch(
         myExperimentKeyFilterString,
         myTagKeyFilterString,
@@ -162,11 +119,6 @@ export class MilestonesView extends React.Component {
     }
   }
   
-  const mapDispatchToProps = {
-    getRunApi,
-    getExperimentApi,
-    searchRunsApi,
-  };
   
   
   const mapStateToProps = (state, ownProps) => {
@@ -195,4 +147,4 @@ export class MilestonesView extends React.Component {
     return {experiments, runUuids};
   };
   
-  export default connect(mapStateToProps,mapDispatchToProps)(MilestonesView);
+  export default connect(mapStateToProps)(MilestonesView);

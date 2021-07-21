@@ -396,6 +396,7 @@ export class ChartPlotView extends React.Component {
 
 export const mapStateToProps = (state, ownProps) => {
     console.log("ChartPlotView mapStateToProps");
+    console.log(state);
     const { runInfosByUuid } = state.entities;
     const experiments = getExperiments(state)
     const experiment = experiments.filter((e) => e.experiment_id === ownProps.ExperimentKeyFilterString.toString()).map((e) => e.name)
@@ -409,10 +410,14 @@ export const mapStateToProps = (state, ownProps) => {
     const runUuids = Object.values(runInfosByUuid)
     .filter((r) => r.experiment_id === ownProps.ExperimentKeyFilterString.toString())
     .map((r) => r.run_uuid);
-
+    console.log("runUuids");
+    console.log(runUuids);
 
     const runInfos = runUuids
       .map((run_id) => getRunInfo(run_id, state))
+
+    console.log("runInfos");
+    console.log(runInfos);
 
     const tagsSet = new Set();
     runInfos.map((runInfo) => {

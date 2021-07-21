@@ -376,7 +376,7 @@ export const mapStateToProps = (state, ownProps) => {
   })
   console.log("gen_data");
   console.log(gen_data);
-  return { experiments, gen_data, plot_name, isload: "true"};
+  return { experiments, gen_data, plot_name};
 }
 
        
