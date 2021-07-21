@@ -7,9 +7,15 @@ class Routes {
     return `/experiments/${experimentId}`;
   }
 
+  static experimentsPageRoute = '/experiments';
+
   static experimentPageRoute = '/experiments/:experimentId';
 
   static experimentPageSearchRoute = '/experiments/:experimentId/:searchString';
+
+  static chartSearchRoute = '/chart/:searchString';
+  
+  static milestonesPageRoute = '/milestones/:searchString';
 
   static getRunPageRoute(experimentId, runUuid) {
     return `/experiments/${experimentId}/runs/${runUuid}`;

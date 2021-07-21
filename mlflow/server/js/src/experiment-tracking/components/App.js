@@ -19,14 +19,33 @@ import {
   modelVersionPageRoute,
   compareModelVersionsPageRoute,
 } from '../../model-registry/routes';
+import {
+  chartPageRoute,
+  milestonesPageRoute
+} from '../../diagram-show/routes';
 import { ModelVersionPage } from '../../model-registry/components/ModelVersionPage';
 import ModelListPage from '../../model-registry/components/ModelListPage';
 import { ModelPage } from '../../model-registry/components/ModelPage';
 import CompareModelVersionsPage from '../../model-registry/components/CompareModelVersionsPage';
+import { ChartPage } from '../../diagram-show/components/ChartPage';
+import { DashboardPage } from '../../diagram-show/components/DashboardPage';
+import { MilestonesPage } from '../../diagram-show/components/MilestonesPage';
+import console from "react-console";
 
 const classNames = {
   activeNavLink: { borderBottom: '4px solid #43C9ED' },
 };
+
+const isExperimentsActive = (match, location) => {
+  // eslint-disable-next-line prefer-const
+  console.log("location.pathname")
+  console.log(location.pathname)
+  let isActive = match && !location.pathname.includes('chart') 
+  && !location.pathname.includes('milestones') && !location.pathname.includes('experiments');
+  console.log(isActive)
+  return isActive;
+};
+
 
 class App extends Component {
   render() {
@@ -38,7 +57,7 @@ class App extends Component {
             <header className='App-header'>
               <div className='mlflow-logo'>
                 <Link to={Routes.rootRoute} className='App-mlflow'>
-                  <img className='mlflow-logo' alt='MLflow' src={logo} />
+                  <img className='mlflow-logo' alt='MLDashboard' src={logo} />
                 </Link>
               </div>
               <div className='header-route-links'>
@@ -46,47 +65,60 @@ class App extends Component {
                   strict
                   to={Routes.rootRoute}
                   activeStyle={classNames.activeNavLink}
-                  isActive={(match, location) => match && !location.pathname.includes('models')}
-                  className='header-nav-link'
+                  isActive={isExperimentsActive}
+                  className='header-nav-link header-nav-link-dashboard'
+                >
+                  <div className='dashboard'>
+                    <span>Dashboard</span>
+                  </div>
+                </NavLink>
+                <NavLink
+                  strict
+                  to={chartPageRoute}
+                  activeStyle={classNames.activeNavLink}
+                  className='header-nav-link header-nav-link-chartshow'
+                >
+                  <div className='chartshow'>
+                    <span>Charts</span>
+                  </div>
+                </NavLink>
+                <NavLink
+                  strict
+                  to={milestonesPageRoute}
+                  activeStyle={classNames.activeNavLink}
+                  className='header-nav-link header-nav-link-milestones'
+                >
+                  <div className='milestones'>
+                    <span>Milestones</span>
+                  </div>
+                </NavLink>
+                <NavLink
+                  strict
+                  to={Routes.experimentsPageRoute}
+                  activeStyle={classNames.activeNavLink}
+                  className='header-nav-link header-nav-link-experiments'
                 >
                   <div className='experiments'>
                     <span>Experiments</span>
                   </div>
                 </NavLink>
-                <NavLink
-                  strict
-                  to={modelListPageRoute}
-                  activeStyle={classNames.activeNavLink}
-                  className='header-nav-link header-nav-link-models'
-                >
-                  <div className='models'>
-                    <span>Models</span>
-                  </div>
-                </NavLink>
-              </div>
-              <div className='header-links'>
-                <a href={'https://github.com/mlflow/mlflow'}>
-                  <div className='github'>
-                    <span>GitHub</span>
-                  </div>
-                </a>
-                <a href={'https://mlflow.org/docs/latest/index.html'}>
-                  <div className='docs'>
-                    <span>Docs</span>
-                  </div>
-                </a>
               </div>
             </header>
           )}
           <AppErrorBoundary>
             <Switch>
-              <Route exact path={Routes.rootRoute} component={HomePage} />
+              <Route exact path={Routes.rootRoute} component={DashboardPage} />
+              <Route exact path={chartPageRoute} component={ChartPage} />
+              <Route exact path={milestonesPageRoute} component={MilestonesPage} />
+              <Route exact path={Routes.experimentsPageRoute} component={HomePage} />
               <Route exact path={Routes.experimentPageRoute} component={HomePage} />
               <Route exact path={Routes.runPageWithArtifactSelectedRoute} component={RunPage} />
               <Route exact path={Routes.runPageRoute} component={RunPage} />
               <Route exact path={Routes.metricPageRoute} component={MetricPage} />
               <Route exact path={Routes.compareRunPageRoute} component={CompareRunPage} />
               <Route path={Routes.experimentPageSearchRoute} component={HomePage} />
+              <Route path={Routes.chartSearchRoute} component={ChartPage} />
+              <Route path={Routes.milestonesPageRoute} component={MilestonesPage} />
               {/* TODO(Zangr) see if route component can be injected here */}
               <Route exact path={modelListPageRoute} component={ModelListPage} />
               <Route exact path={modelVersionPageRoute} component={ModelVersionPage} />
@@ -107,6 +139,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("app mapStateToProps")
+  console.log(state)
   return {
     experiments: Object.values(state.entities.experimentsById),
   };
